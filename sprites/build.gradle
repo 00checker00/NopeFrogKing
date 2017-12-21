@@ -1,0 +1,108 @@
+apply plugin: "java"
+
+
+sourceCompatibility = 1.6
+sourceSets.main.java.srcDirs = ["src/"]
+
+project.ext.mainClassName = "Packer"
+project.ext.configFile = new File("pack.json")
+project.ext.spritesDataDir = new File("data")
+project.ext.spritesOutputDir = new File("../assets/spritesheets")
+project.ext.uiDataDir = new File("skin")
+project.ext.uiOutputDir = new File("../assets/ui")
+project.ext.scales = [
+        [  1.0,   "4x"],
+        [ 0.75,   "3x"],
+        [  0.5,   "2x"],
+        [0.375, "1.5x"],
+        [ 0.25,   "1x"]
+]
+
+dependencies {
+    compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    compile group: 'com.beust', name: 'jcommander', version: '1.48'
+}
+
+task packSprites() { group = "pack" }
+task packSpritesFast() { group = "pack" }
+task packUi() { group = "pack" }
+task packUiFast() { group = "pack" }
+
+task pack(dependsOn: [packSprites, packUi]) { group = "pack" }
+task packFast(dependsOn: [packSpritesFast, packUiFast]) { group = "pack" }
+
+scales.each {
+    def factor = it[0]
+    def name = it[1]
+
+    def spritesDir = new File(spritesOutputDir, name)
+    def uiDir = new File(uiOutputDir, name)
+
+    task "packSprites@$name"(dependsOn: classes, type: JavaExec) {
+        group = "pack@"
+        workingDir = projectDir
+        main = mainClassName
+        classpath = sourceSets.main.runtimeClasspath
+        standardInput = System.in
+        args = ["-s", factor, "-c", configFile, spritesDataDir, spritesDir]
+    }
+    packSprites.dependsOn "packSprites@$name"
+
+    task "packSpritesFast@$name"(dependsOn: classes, type: JavaExec) {
+        group = "pack@"
+        workingDir = projectDir
+        main = mainClassName
+        classpath = sourceSets.main.runtimeClasspath
+        standardInput = System.in
+        args = ["-s", factor, "-c", configFile, "--fast", spritesDataDir, spritesDir]
+    }
+    packSpritesFast.dependsOn "packSpritesFast@$name"
+
+    task "packUi@$name"(dependsOn: classes, type: JavaExec) {
+        group = "pack@"
+        workingDir = projectDir
+        main = mainClassName
+        classpath = sourceSets.main.runtimeClasspath
+        standardInput = System.in
+        args = ["-s", factor, "-c", configFile, "--name", "skin", uiDataDir, uiDir]
+    }
+    packUi.dependsOn "packUi@$name"
+
+    task "packUiFast@$name"(dependsOn: classes, type: JavaExec) {
+        group = "pack@"
+        workingDir = projectDir
+        main = mainClassName
+        classpath = sourceSets.main.runtimeClasspath
+        standardInput = System.in
+        args = ["-s", factor, "-c", configFile, "--fast", "--name", "skin", uiDataDir, uiDir]
+    }
+    packUiFast.dependsOn "packUiFast@$name"
+}
+
+
+
+task particleEditor(dependsOn: classes, type: JavaExec) {
+    workingDir = new File(projectDir, "data")
+    println "Starting ParticleEditor with directory: $workingDir"
+    main = "com.badlogic.gdx.tools.particleeditor.ParticleEditor"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task dist(type: Jar) {
+    from files(sourceSets.main.output.classesDir)
+    from { configurations.compile.collect { zipTree(it) } }
+
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+}
+
+dist.dependsOn classes

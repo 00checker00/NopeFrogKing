@@ -1,0 +1,3 @@
+#include "Pods/Target Support Files/Pods-NopeFrogKing/Pods-NopeFrogKing.debug.xcconfig"
+#include "Pods/Target Support Files/Pods-NopeFrogKing/Pods-NopeFrogKing.release.xcconfig"
+LIBGDX_NATIVES =  -force_load ${SRCROOT}/native/ios/libObjectAL.a -force_load ${SRCROOT}/native/ios/libgdx.a -force_load ${SRCROOT}/native/ios/libObjectAL.a -force_load ${SRCROOT}/native/ios/libgdx.a -force_load ${SRCROOT}/native/ios/libgdx-freetype.a -force_load ${SRCROOT}/native/ios/libgdx-freetype.a

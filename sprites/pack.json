@@ -1,0 +1,11 @@
+{
+    ignoreBlankImages: false,
+    paddingX: 4,
+    paddingY: 4,
+    maxWidth: 2048,
+    maxHeight: 2048,
+    bleed: true,
+    filterMin: MipMap,
+    filterMag: MipMap,
+    scale: [1],
+}

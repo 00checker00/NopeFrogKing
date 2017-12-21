@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "757634789631",
+    "firebase_url": "https://nope-frog-king-9906178.firebaseio.com",
+    "project_id": "nope-frog-king-9906178",
+    "storage_bucket": "nope-frog-king-9906178.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757634789631:android:1ed5a2ffd7ebcb26",
+        "android_client_info": {
+          "package_name": "de.nopefrogking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757634789631-oqmedeje7u6hqs8nss2p060bd11mdu2c.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "757634789631-84av8cb6bsavhgn67u6jsqolvefn36jj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.nopefrogking",
+            "certificate_hash": "5c1a019eab124b764fa81d950e6b38ad0235492a"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy7-hRmkIgv3UwtvICOf-oFbeMlOgm-C8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757634789631-oqmedeje7u6hqs8nss2p060bd11mdu2c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,24 @@
+apply plugin: 'application'
+
+sourceSets.main.resources.srcDirs += [ rootProject.file('assets').absolutePath ]
+mainClassName = 'de.nopefrogking.lwjgl3.Lwjgl3Launcher'
+eclipse.project.name = appName + '-lwjgl3'
+sourceCompatibility = 1.7
+
+dependencies {
+    compile project(':core')
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+    compile "de.tomgrill.gdxdialogs:gdx-dialogs-desktop:1.2.0"
+}
+
+jar {
+    archiveName "${appName}-${version}.jar"
+    from { configurations.compile.collect { zipTree(it) } }
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+}
+
+tasks.run.workingDir = new File(rootProject.projectDir, "assets")

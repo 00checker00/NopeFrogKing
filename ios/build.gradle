@@ -1,0 +1,92 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.multi-os-engine:moe-gradle:1.3.0-beta-2'
+    }
+}
+apply plugin: 'moe'
+apply plugin: 'kotlin'
+
+configurations { natives }
+
+task copyNatives << {
+    file("xcode/native/ios/").mkdirs();
+    def CUSTOM_CONFIG = "#include \"Pods/Target Support Files/Pods-NopeFrogKing/Pods-NopeFrogKing.debug.xcconfig\"\n"
+    CUSTOM_CONFIG += "#include \"Pods/Target Support Files/Pods-NopeFrogKing/Pods-NopeFrogKing.release.xcconfig\"\n"
+    CUSTOM_CONFIG += "LIBGDX_NATIVES = "
+    configurations.natives.files.each { jar->
+        def outputDir = null
+        if (jar.name.endsWith("natives-ios.jar")) outputDir = file("xcode/native/ios")
+        if (outputDir != null) {
+            FileCollection fileCollection = zipTree(jar)
+            for (File libFile : fileCollection) {
+                if (libFile.getAbsolutePath().endsWith(".a") && !libFile.getAbsolutePath().contains("/tvos/")) {
+                    copy {
+                        from libFile.getAbsolutePath()
+                        into outputDir
+                    }
+                    CUSTOM_CONFIG += " -force_load \${SRCROOT}/native/ios/" + libFile.getName()
+                }
+            }
+        }
+    }
+    def outFlags = file("xcode/NopeFrogKing/custom.xcconfig");
+    outFlags.write CUSTOM_CONFIG
+
+    def proguard = file("proguard.append.cfg")
+    if (proguard.exists()) {
+        if (!proguard.text.contains("-keep class com.badlogic.**")) {
+            proguard << "\n-keep class com.badlogic.** { *; }\n"
+            proguard << "-keep enum com.badlogic.** { *; }\n"
+            proguard << "-keep class apple.uikit.** { *; }\n"
+            proguard << "-keep class org.moe.** { *; }\n"
+        }
+    } else {
+        proguard = new File("proguard.append.cfg")
+        proguard << "\n-keep class com.badlogic.** { *; }\n"
+        proguard << "-keep enum com.badlogic.** { *; }\n"
+        proguard << "-keep class apple.uikit.** { *; }\n"
+        proguard << "-keep class org.moe.** { *; }\n"
+    }
+}
+
+task createBuildDir {
+    def file = new File('build/xcode/NopeFrogKing.xcodeproj')
+    if (!file.exists()) {
+        file.mkdirs();
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'lib', include: '*.jar')
+    compile project(":core")
+    compile "com.badlogicgames.gdxpay:gdx-pay-iosmoe-apple:$gdxPayVersion"
+    compile "com.badlogicgames.gdx:gdx-backend-moe:$gdxVersion"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+    natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
+}
+
+sourceSets.main.java.srcDirs = [ "src/", "gen" ]
+sourceSets.main.resources.srcDirs = ["../android/assets"]
+
+moe {
+    proguardLevel 'app'
+    xcode {
+	    project 'xcode/NopeFrogKing.xcodeproj'
+        mainTarget 'NopeFrogKing'
+		testTarget 'NopeFrogKing-Test'
+
+        workspace 'xcode/NopeFrogKing.xcworkspace'
+        mainScheme 'NopeFrogKing'
+        testScheme 'NopeFrogKing-Test'
+    }
+}
+
+moeMainReleaseIphoneosXcodeBuild.dependsOn copyNatives
+moeMainDebugIphoneosXcodeBuild.dependsOn copyNatives
+moeMainReleaseIphonesimulatorXcodeBuild.dependsOn copyNatives
+moeMainDebugIphonesimulatorXcodeBuild.dependsOn copyNatives

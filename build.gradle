@@ -1,0 +1,138 @@
+buildscript {
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    google()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+  }
+  dependencies {
+    classpath "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$robovmVersion"
+    classpath 'com.android.tools.build:gradle:3.0.1'
+  }
+}
+
+allprojects {
+  apply plugin: 'eclipse'
+  apply plugin: 'idea'
+}
+
+configure(subprojects - project(':android')) {
+  apply plugin: 'java'
+  apply plugin: 'kotlin'
+  sourceCompatibility = 1.6
+}
+
+subprojects {
+  version = '0.0.1-SNAPSHOT'
+  ext.appName = 'NopeFrogKing'
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    google()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+  }
+}
+
+// Clearing Eclipse project data in root folder:
+tasks.eclipse.doLast {
+  delete '.project'
+  delete '.classpath'
+  delete '.settings/'
+}
+
+// Run `gradle pack` task to generate skin.atlas file at assets/ui.
+task genSounds << {
+  def project = 'core'             // Will contain generated enum class.
+  def source = 'src/main/kotlin'   // Kotlin source path of the project.
+  def pack = 'de.nopefrogking'     // Enum target package.
+  def name = 'Sounds'              // Enum class name.
+  def fileName = 'Sounds.kt'       // Name of Kotlin file containing the enum.
+  def assetDir = 'assets'          // Path to assets folder.
+  def soundDir = 'sounds'          // Path to sounds folder relative to the assets.
+
+  println("Processing sounds folder at ${assetDir}/${soundDir}...")
+  def builder = new StringBuilder()
+  builder.append("""package ${pack}
+                   |
+                   |
+                   |import com.badlogic.gdx.Gdx
+                   |import com.badlogic.gdx.audio.Sound
+                   |
+                   |/** Generated from ${assetDir}/${soundDir} dir. */
+                   |enum class ${name}(path: String) {
+                   |""".stripMargin())
+
+  def newLine = System.getProperty("line.separator")
+  def root = file(assetDir)
+  new File(root, soundDir).eachFileMatch(groovy.io.FileType.ANY, ~/.*?\.(wav|mp3)/) { file ->
+      def filename = file.name.lastIndexOf('.').with {it != -1 ? file.name[0..<it] : file.name}
+      def relative = root.toPath().relativize(file.toPath()).toFile().path.replace("\\", "/")
+      builder.append('    ').append(filename).append('("').append(relative).append('"),').append(newLine)
+  }
+  builder.append("""    ;
+                   |
+                   |    val sound: Sound = Assets.manager.get(path, Sound::class.java)
+                   |
+                   |    @Suppress("NOTHING_TO_INLINE")
+                   |    inline operator fun invoke() = sound
+                   |}
+                   |""".stripMargin())
+
+  source = source.replace('/', File.separator)
+  pack = pack.replace('.', File.separator)
+  def path = project + File.separator + source + File.separator + pack +
+          File.separator + fileName
+  println("Saving sounds enum at ${path}...")
+  def enumFile = file(path)
+  delete enumFile
+  enumFile.getParentFile().mkdirs()
+  enumFile.createNewFile()
+  enumFile << builder << newLine
+  println("Done. Sounds enum generated.")
+}
+
+task genI18N << {
+  def project = 'core'             // Will contain generated enum class.
+  def source = 'src/main/kotlin'   // Kotlin source path of the project.
+  def pack = 'de.nopefrogking'     // Enum target package.
+  def name = 'I18N'                // Enum class name.
+  def fileName = 'I18N.kt'         // Name of Kotlin file containing the enum.
+  def bundle = 'assets/i18n/i18n.properties' // Path to i18n bundle file.
+
+  println("Processing i18n bundle file at ${bundle}...")
+  def builder = new StringBuilder()
+  builder.append("""package ${pack}
+                   |
+                   |import ktx.i18n.BundleLine
+                   |
+                   |/** Generated from ${bundle} file. */
+                   |enum class ${name} : BundleLine {
+                   |""".stripMargin())
+
+  def newLine = System.getProperty("line.separator")
+  file(bundle).eachLine {
+    def data = it.trim()
+    def separator = data.indexOf('=')
+    if (!data.isEmpty() && separator > 0 && !data.startsWith('#')) {
+      def id = data.substring(0, separator)
+      builder.append('    ').append(id).append(',').append(newLine)
+    }
+  }
+  builder.append('    ;').append(newLine).append('}').append(newLine)
+
+  source = source.replace('/', File.separator)
+  pack = pack.replace('.', File.separator)
+  def path = project + File.separator + source + File.separator + pack +
+          File.separator + fileName
+  println("Saving i18n bundle enum at ${path}...")
+  def enumFile = file(path)
+  delete enumFile
+  enumFile.getParentFile().mkdirs()
+  enumFile.createNewFile()
+  enumFile << builder << newLine
+  println("Done. I18n bundle enum generated.")
+}

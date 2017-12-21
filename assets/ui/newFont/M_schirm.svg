@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   preserveAspectRatio="none"
+   x="0px"
+   y="0px"
+   width="100px"
+   height="100px"
+   viewBox="0 0 100 100"
+   id="svg13"
+   sodipodi:docname="M_schirm.svg"
+   inkscape:version="0.92.1 r">
+  <metadata
+     id="metadata17">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview15"
+     showgrid="false"
+     inkscape:zoom="2.36"
+     inkscape:cx="50"
+     inkscape:cy="50"
+     inkscape:window-x="0"
+     inkscape:window-y="36"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg13" />
+  <defs
+     id="defs5">
+    <g
+       id="schirm_0_Layer0_0_FILL">
+      <path
+         fill="#000000"
+         stroke="none"
+         d=" M 2.15 13 Q 2.35 7.3 2.55 1.45 2.6 0.15 1.95 -0.8 0.7 -2.6 -1.35 -2.2 -1.6 -2.2 -1.8 -2 -2.85 -1.2 -3.15 0.05 -4.05 3.35 -3.1 6.95 -2.25 10.7 -2.8 14.5 -3.15 17.05 -3.2 19.65 -3.3 23.05 -4.1 26.45 -4.9 29.7 -7.7 31.05 -9.25 30.8 -10.75 30.45 -10.8 30.4 -10.8 30.45 -12.6 30.1 -13.05 28.25 L -13.05 28.3 Q -13.25 27.45 -13.6 26.8 -13.65 26.75 -13.65 26.7 -14.25 25.8 -15 25.35 L -14.9 25.4 Q -16.75 23.8 -18.9 25.25 -19.25 25.45 -19.3 25.85 -19.5 26.7 -19.45 27.45 L -19.45 27.5 Q -19.35 29.3 -18.65 30.95 L -18.7 30.9 Q -18.21171875 32.1697265625 -17.15 33.2 -17.125390625 33.225390625 -17.1 33.25 -13.965234375 36.453515625 -9.55 36.9 -6.95 37.2 -4.6 36.2 L -4.6 36.15 Q -1.8 34.9 -0.55 32.15 0.5 29.6 1.05 26.7 1.4 24.6 1.55 22.65 2 17.8 2.15 13 M 4.9 -30.15 Q 4.2 -30.25 3.55 -30.4 3.5 -31.8 3.4 -33.3 3.4 -33.8 3.25 -34.35 3 -35.45 2.05 -36.2 1.1 -36.95 0 -36.95 -1.1 -36.95 -2.05 -36.2 -3 -35.5 -3.3 -34.4 -3.35 -34.1 -3.4 -33.7 -3.45 -33.6 -3.45 -33.5 -3.6 -33.1 -3.6 -32.2 -3.65 -31.55 -3.7 -30.9 -6.8 -30.25 -9.9 -29.65 -11.4 -29.2 -12.9 -28.7 -15.55 -27.65 -18.15 -26.5 -20.8 -25.35 -23.25 -23.9 -25.65 -22.4 -27.85 -20.65 -29 -19.75 -29.85 -18.6 -31.5 -16.4 -32.8 -13.95 -34.2 -11.2 -35.05 -8.2 -35.75 -5.85 -35.9 -3.4 -36.1 -0.9 -36.05 1.65 -36.05 2.9 -35.1 3.5 -33.35 4.6 -32.1 2.75 -31.65 2.1 -31.25 1.55 -29.45 -1.1 -26.45 -2 -24.55 -2.65 -22.6 -2.95 -19.45 -3.55 -17.3 -1.05 -15.75 0.85 -14.1 2.65 -13.45 3.35 -12.6 3.7 -11.35 4.2 -10 3.55 -9.25 3.2 -8.65 2.6 -7.7 1.65 -6.85 0.55 -4.2 -2.95 0.3 -3.05 4.35 -2.5 6.25 1.05 7.25 2.9 9.05 3.75 10.95 4.7 12.65 3.4 14 2.4 15.15 0.9 16.6 -1 18.6 -2.15 19.6 -2.75 20.7 -2.75 23.2 -3.15 25 -1.45 27.1 0.45 29.3 2.3 30.6 3.35 32.15 4.15 33.1 4.65 34 4.45 35.55 4.05 35.8 2.65 36 1.4 36.05 0.15 36.25 -3.6 34.6 -6.9 33.4 -9.35 32.15 -11.7 31.2 -13.45 30.15 -15.15 28.6 -17.65 26.6 -19.75 24.85 -21.7 22.7 -23.25 20.2 -24.95 17.5 -26.15 15.15 -27.35 12.65 -28.2 10.7 -28.75 8.8 -29.3 6.85 -29.75 4.9 -30.15 Z"
+         id="path2" />
+    </g>
+  </defs>
+  <g
+     transform="translate(49.994189,49.990385)"
+     id="g11">
+    <g
+       id="g9">
+      <use
+         xlink:href="#schirm_0_Layer0_0_FILL"
+         id="use7"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+  </g>
+</svg>

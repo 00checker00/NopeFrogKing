@@ -1,0 +1,1 @@
+include 'ios', 'shared', 'core', 'android', 'lwjgl3', 'sprites'

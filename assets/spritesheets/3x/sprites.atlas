@@ -1,0 +1,1303 @@
+
+sprites.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Backgrounds/Bricks
+  rotate: false
+  xy: 4, 4
+  size: 1303, 185
+  orig: 1303, 185
+  offset: 0, 0
+  index: -1
+Backgrounds/Stones
+  rotate: false
+  xy: 4, 193
+  size: 1059, 335
+  orig: 1059, 335
+  offset: 0, 0
+  index: -1
+Backgrounds/Wall
+  rotate: false
+  xy: 4, 532
+  size: 1059, 1483
+  orig: 1059, 1483
+  offset: 0, 0
+  index: -1
+
+sprites2.png
+size: 512,512
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Poof
+  rotate: false
+  xy: 4, 4
+  size: 315, 315
+  orig: 315, 315
+  offset: 0, 0
+  index: -1
+
+sprites3.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 4, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 1
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 4, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 2
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 494, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 3
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 494, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 4
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 984, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 5
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 984, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 6
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 1474, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 7
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 1474, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 8
+
+sprites4.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 4, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 9
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 4, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 10
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 494, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 11
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 494, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 12
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 984, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 13
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 984, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 14
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 1474, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 15
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 1474, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 16
+
+sprites5.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 4, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 17
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 4, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 18
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 494, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 19
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 494, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 20
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 984, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 21
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 984, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 22
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 1474, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 23
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 1474, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 24
+
+sprites6.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 4, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 25
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 4, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 26
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 494, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 27
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 494, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 28
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 984, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 29
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 984, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 30
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 1474, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 31
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 1474, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 32
+
+sprites7.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 1474, 6
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 1
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 4, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 33
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 4, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 34
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 494, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 35
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 494, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 36
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 984, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 37
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 984, 4
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 38
+Characters/Prince/Fall_Damaged_Hit
+  rotate: false
+  xy: 1474, 882
+  size: 486, 874
+  orig: 486, 874
+  offset: 0, 0
+  index: 39
+
+sprites8.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 4, 880
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 2
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 4, 4
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 3
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 494, 880
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 4
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 494, 4
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 5
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 984, 880
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 6
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 984, 4
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 7
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 1474, 880
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 8
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 1474, 4
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 9
+
+sprites9.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 4, 880
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 10
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 4, 4
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 11
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 494, 880
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 12
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 494, 4
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 13
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 984, 880
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 14
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 984, 4
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 15
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 1474, 880
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 16
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 1474, 4
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 17
+
+sprites10.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 4, 882
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 18
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 4, 6
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 19
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 494, 882
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 20
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 494, 6
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 21
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 984, 882
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 22
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 1474, 882
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 23
+Characters/Prince/Fall_Damaged
+  rotate: false
+  xy: 984, 6
+  size: 486, 872
+  orig: 486, 872
+  offset: 0, 0
+  index: 24
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 1474, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 1
+
+sprites11.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 4, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 2
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 4, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 3
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 459, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 4
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 459, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 5
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 914, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 6
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 914, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 7
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 1369, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 8
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 1369, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 9
+
+sprites12.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 4, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 10
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 4, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 11
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 459, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 12
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 459, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 13
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 914, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 14
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 914, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 15
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 1369, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 16
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 1369, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 17
+
+sprites13.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 4, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 18
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 4, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 19
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 459, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 20
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 459, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 21
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 914, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 22
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 914, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 23
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 1369, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 24
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 1369, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 25
+
+sprites14.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 4, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 26
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 4, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 27
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 459, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 28
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 459, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 29
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 914, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 30
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 914, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 31
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 1369, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 32
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 1369, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 33
+
+sprites15.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 1369, 884
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 1
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 1369, 8
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 2
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 4, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 34
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 4, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 35
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 459, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 36
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 459, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 37
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 914, 882
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 38
+Characters/Prince/Fall_Normal_Hit
+  rotate: false
+  xy: 914, 4
+  size: 451, 874
+  orig: 451, 874
+  offset: 0, 0
+  index: 39
+
+sprites16.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 4, 880
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 3
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 4, 4
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 4
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 459, 880
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 5
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 459, 4
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 6
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 914, 880
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 7
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 914, 4
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 8
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 1369, 880
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 9
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 1369, 4
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 10
+
+sprites17.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 4, 880
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 11
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 4, 4
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 12
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 459, 880
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 13
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 459, 4
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 14
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 914, 880
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 15
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 914, 4
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 16
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 1369, 880
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 17
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 1369, 4
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 18
+
+sprites18.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 4, 880
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 19
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 4, 4
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 20
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 459, 880
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 21
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 459, 4
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 22
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 914, 880
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 23
+Characters/Prince/Fall_Normal
+  rotate: false
+  xy: 914, 4
+  size: 451, 872
+  orig: 451, 872
+  offset: 0, 0
+  index: 24
+
+sprites19.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 4, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 1
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 623, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 2
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 1242, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 3
+
+sprites20.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 4, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 4
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 623, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 5
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 1242, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 6
+
+sprites21.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 4, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 7
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 623, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 8
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 1242, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 9
+
+sprites22.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 4, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 10
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 623, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 11
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 1242, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 12
+
+sprites23.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 4, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 13
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 623, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 14
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 1242, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 15
+
+sprites24.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 4, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 16
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 623, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 17
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 1242, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 18
+
+sprites25.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 4, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 19
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 623, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 20
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 1242, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 21
+
+sprites26.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 4, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 22
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 623, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 23
+Characters/Princess/Fall_Normal
+  rotate: false
+  xy: 1242, 4
+  size: 615, 1121
+  orig: 615, 1121
+  offset: 0, 0
+  index: 24
+
+sprites27.png
+size: 2048,512
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+Stones/Particle1
+  rotate: false
+  xy: 1228, 4
+  size: 277, 218
+  orig: 277, 218
+  offset: 0, 0
+  index: -1
+Stones/Particle2
+  rotate: false
+  xy: 1792, 298
+  size: 178, 197
+  orig: 178, 197
+  offset: 0, 0
+  index: -1
+Stones/Particle3
+  rotate: false
+  xy: 4, 7
+  size: 476, 488
+  orig: 476, 488
+  offset: 0, 0
+  index: -1
+Stones/Stone1
+  rotate: false
+  xy: 1378, 255
+  size: 410, 240
+  orig: 410, 240
+  offset: 0, 0
+  index: -1
+Stones/Stone1Broken
+  rotate: false
+  xy: 1509, 11
+  size: 410, 240
+  orig: 410, 240
+  offset: 0, 0
+  index: -1
+Stones/Stone2
+  rotate: false
+  xy: 484, 13
+  size: 368, 209
+  orig: 368, 209
+  offset: 0, 0
+  index: -1
+Stones/Stone2Broken
+  rotate: false
+  xy: 856, 13
+  size: 368, 209
+  orig: 368, 209
+  offset: 0, 0
+  index: -1
+Stones/Stone3
+  rotate: false
+  xy: 484, 226
+  size: 443, 269
+  orig: 443, 269
+  offset: 0, 0
+  index: -1
+Stones/Stone3Broken
+  rotate: false
+  xy: 931, 226
+  size: 443, 269
+  orig: 443, 269
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,7 @@
+platform :ios, '7.0'
+use_frameworks!
+
+target 'NopeFrogKing' do
+    pod 'Firebase/Core'
+    pod 'Firebase/AdMob'
+end

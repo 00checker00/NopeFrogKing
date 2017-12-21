@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   preserveAspectRatio="none"
+   x="0px"
+   y="0px"
+   width="100px"
+   height="100px"
+   viewBox="0 0 100 100"
+   id="svg13"
+   sodipodi:docname="N_star.svg"
+   inkscape:version="0.92.1 r">
+  <metadata
+     id="metadata17">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview15"
+     showgrid="false"
+     inkscape:zoom="2.36"
+     inkscape:cx="50"
+     inkscape:cy="50"
+     inkscape:window-x="0"
+     inkscape:window-y="36"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg13" />
+  <defs
+     id="defs5">
+    <g
+       id="star_0_Layer0_0_FILL">
+      <path
+         fill="#000000"
+         stroke="none"
+         d=" M 24.35 -13.85 Q 18.95 -14.55 13.1 -14.5 12 -22.6 5.45 -30.05 4 -32.3 1.55 -33.15 0.85 -33.35 0.05 -33.45 0.05 -33.5 0 -33.5 L -0.05 -33.45 Q -0.8 -33.35 -1.55 -33.15 -4 -32.3 -5.45 -30.05 -12 -22.6 -13.05 -14.5 -18.9 -14.55 -24.35 -13.85 -26.05 -13.65 -27.65 -13.4 -30.75 -12.45 -32.85 -10.8 -35.95 -8.5 -35.4 -4.6 -34.75 -0.1 -31.05 3.35 -28.3 5.95 -24.8 7.8 -23.85 8.35 -22.75 9 -22.85 9.65 -23.05 10.25 -24.15 13.55 -25 16.75 -25.8 20.2 -26.45 24.35 -27 27.45 -24.85 29.95 -20.4 34.9 -14.05 33 -10.3 31.8 -7 29.85 -4.25 28.05 -1.55 26.2 -0.8 25.7 -0.05 25.2 L 0 25.15 Q 0.05 25.15 0.05 25.2 0.8 25.7 1.55 26.2 4.3 28.05 7.05 29.85 10.35 31.8 14.05 33 20.45 34.9 24.9 29.95 27 27.45 26.5 24.35 25.85 20.2 25 16.75 24.15 13.55 23.1 10.25 22.85 9.65 22.75 9 23.85 8.35 24.8 7.8 28.3 5.95 31.05 3.35 34.8 -0.1 35.45 -4.6 35.95 -8.5 32.9 -10.8 30.75 -12.45 27.65 -13.4 26.05 -13.65 24.35 -13.85 Z"
+         id="path2" />
+    </g>
+  </defs>
+  <g
+     transform="translate(49.981227,49.986496)"
+     id="g11">
+    <g
+       id="g9">
+      <use
+         xlink:href="#star_0_Layer0_0_FILL"
+         id="use7"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+  </g>
+</svg>
