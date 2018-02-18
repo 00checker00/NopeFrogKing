@@ -53,18 +53,18 @@ intro_cloud
   orig: 375, 148
   offset: 0, 0
   index: -1
-lvlbar_handle_prince
-  rotate: false
-  xy: 1856, 542
-  size: 139, 139
-  orig: 139, 139
-  offset: 0, 0
-  index: -1
 transparent
   rotate: false
   xy: 1976, 299
   size: 1, 1
   orig: 1, 1
+  offset: 0, 0
+  index: -1
+ui_item_flask
+  rotate: false
+  xy: 1856, 536
+  size: 92, 145
+  orig: 92, 145
   offset: 0, 0
   index: -1
 ui_premium_bar
@@ -124,98 +124,126 @@ filter: MipMap,MipMap
 repeat: none
 gift_huge
   rotate: false
-  xy: 1323, 5
+  xy: 1623, 671
   size: 392, 328
   orig: 392, 328
   offset: 0, 0
   index: -1
-intro_bg
+gift_open
   rotate: false
-  xy: 4, 763
-  size: 1500, 1280
-  orig: 1500, 1280
+  xy: 4, 676
+  size: 1500, 1368
+  orig: 1500, 1368
+  offset: 0, 0
+  index: 1
+gift_small
+  rotate: false
+  xy: 1623, 9
+  size: 320, 349
+  orig: 320, 349
   offset: 0, 0
   index: -1
 intro_castle
   rotate: false
-  xy: 1508, 818
+  xy: 1080, 370
   size: 182, 180
   orig: 182, 180
   offset: 0, 0
   index: -1
+intro_princess
+  rotate: false
+  xy: 631, 357
+  size: 159, 315
+  orig: 159, 315
+  offset: 0, 0
+  index: -1
 intro_well
   rotate: false
-  xy: 1694, 842
+  xy: 1266, 394
   size: 210, 156
   orig: 210, 156
   offset: 0, 0
   index: -1
-lvlbar_handle_princess
+lvlbar_bg
   rotate: false
-  xy: 1877, 498
-  size: 139, 139
-  orig: 139, 139
+  xy: 1508, 42
+  size: 111, 957
+  orig: 111, 957
+  offset: 0, 0
+  index: -1
+ui_bubble
+  rotate: false
+  xy: 794, 356
+  size: 282, 194
+  orig: 282, 194
   offset: 0, 0
   index: -1
 ui_circle_red_normal
   rotate: false
-  xy: 1719, 28
+  xy: 1623, 362
   size: 324, 305
   orig: 324, 305
   offset: 0, 0
   index: -1
 ui_input_normal
   rotate: false
-  xy: 1323, 337
+  xy: 307, 4
+  size: 550, 300
+  orig: 550, 300
+  offset: 0, 0
+  index: -1
+ui_input_pressed
+  rotate: false
+  xy: 861, 52
   size: 550, 300
   orig: 550, 300
   offset: 0, 0
   index: -1
 ui_powerups_bg
   rotate: false
-  xy: 1020, 121
+  xy: 4, 34
   size: 299, 638
   orig: 299, 638
   offset: 0, 0
   index: -1
+ui_premium_badge
+  rotate: false
+  xy: 307, 308
+  size: 320, 364
+  orig: 320, 364
+  offset: 0, 0
+  index: -1
 ui_premium_end
   rotate: false
-  xy: 1508, 1609
+  xy: 1508, 1610
   size: 439, 302
   orig: 439, 302
   offset: 0, 0
   index: -1
 ui_score_end
   rotate: false
-  xy: 1508, 1002
+  xy: 1508, 1003
   size: 437, 299
   orig: 437, 299
   offset: 0, 0
   index: -1
 ui_score_end_pressed
   rotate: false
-  xy: 1508, 1305
+  xy: 1508, 1306
   size: 439, 300
   orig: 439, 300
   offset: 0, 0
   index: -1
-ui_window
-  rotate: false
-  xy: 4, 4
-  size: 1012, 755
-  orig: 1012, 755
-  offset: 0, 0
-  index: -1
 ui_window_sheet
   rotate: false
-  xy: 1323, 641
+  xy: 794, 554
   size: 698, 118
   orig: 698, 118
   offset: 0, 0
   index: -1
 ui_window_tab_right
   rotate: false
-  xy: 1508, 1915
+  xy: 1508, 1916
   size: 495, 128
   orig: 495, 128
   offset: 0, 0
@@ -228,79 +256,135 @@ filter: MipMap,MipMap
 repeat: none
 gift_open
   rotate: false
-  xy: 4, 696
-  size: 1489, 1249
-  orig: 1489, 1249
+  xy: 4, 674
+  size: 1500, 1368
+  orig: 1500, 1368
   offset: 0, 0
-  index: 1
-gift_small
-  rotate: false
-  xy: 1617, 39
-  size: 320, 349
-  orig: 320, 349
-  offset: 0, 0
-  index: -1
+  index: 2
 gold_big
   rotate: false
-  xy: 1497, 1645
+  xy: 1110, 63
   size: 320, 300
   orig: 320, 300
   offset: 0, 0
   index: -1
 gold_medium
   rotate: false
-  xy: 1497, 1341
+  xy: 1623, 781
   size: 320, 300
   orig: 320, 300
   offset: 0, 0
   index: -1
 gold_small
   rotate: false
-  xy: 1497, 1037
+  xy: 1623, 477
   size: 320, 300
   orig: 320, 300
   offset: 0, 0
   index: -1
 gold_xl
   rotate: false
-  xy: 1497, 733
+  xy: 1623, 173
   size: 320, 300
   orig: 320, 300
   offset: 0, 0
   index: -1
-intro_princess
+lvlbar_bg_prince
   rotate: false
-  xy: 1847, 669
-  size: 159, 315
-  orig: 159, 315
-  offset: 0, 0
-  index: -1
-logo
-  rotate: false
-  xy: 4, 4
-  size: 1285, 688
-  orig: 1285, 688
-  offset: 0, 0
-  index: -1
-lvlbar_bg
-  rotate: false
-  xy: 1821, 988
+  xy: 1508, 1085
   size: 111, 957
   orig: 111, 957
   offset: 0, 0
   index: -1
-ui_input_pressed
+lvlbar_fg_prince
   rotate: false
-  xy: 1293, 392
-  size: 550, 300
-  orig: 550, 300
+  xy: 1508, 124
+  size: 111, 957
+  orig: 111, 957
   offset: 0, 0
   index: -1
-ui_premium_badge
+lvlbar_fg_princess
   rotate: false
-  xy: 1293, 24
-  size: 320, 364
-  orig: 320, 364
+  xy: 1623, 1085
+  size: 111, 957
+  orig: 111, 957
+  offset: 0, 0
+  index: -1
+lvlbar_handle_prince
+  rotate: false
+  xy: 1300, 367
+  size: 139, 139
+  orig: 139, 139
+  offset: 0, 0
+  index: -1
+lvlbar_handle_princess
+  rotate: false
+  xy: 1623, 30
+  size: 139, 139
+  orig: 139, 139
+  offset: 0, 0
+  index: -1
+ui_button_normal
+  rotate: false
+  xy: 4, 130
+  size: 549, 300
+  orig: 549, 300
+  offset: 0, 0
+  index: -1
+ui_button_pressed
+  rotate: false
+  xy: 557, 130
+  size: 549, 300
+  orig: 549, 300
+  offset: 0, 0
+  index: -1
+ui_dialogBox
+  rotate: false
+  xy: 4, 434
+  size: 1292, 236
+  orig: 1292, 236
+  offset: 0, 0
+  index: -1
+ui_item_orb
+  rotate: false
+  xy: 118, 4
+  size: 134, 122
+  orig: 134, 122
+  offset: 0, 0
+  index: -1
+ui_item_storm
+  rotate: false
+  xy: 1300, 510
+  size: 151, 160
+  orig: 151, 160
+  offset: 0, 0
+  index: -1
+ui_item_umbrella
+  rotate: false
+  xy: 4, 19
+  size: 110, 101
+  orig: 110, 101
+  offset: 0, 0
+  index: -1
+ui_tab_icon_gift
+  rotate: false
+  xy: 1738, 1742
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+ui_tab_icon_gold
+  rotate: false
+  xy: 1738, 1438
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+ui_tab_icon_items
+  rotate: false
+  xy: 1738, 1134
+  size: 300, 300
+  orig: 300, 300
   offset: 0, 0
   index: -1
 
@@ -311,107 +395,58 @@ filter: MipMap,MipMap
 repeat: none
 gift_open
   rotate: false
-  xy: 4, 673
-  size: 1489, 1249
-  orig: 1489, 1249
+  xy: 4, 612
+  size: 1500, 1368
+  orig: 1500, 1368
   offset: 0, 0
-  index: 2
-lvlbar_bg_prince
-  rotate: false
-  xy: 1497, 965
-  size: 111, 957
-  orig: 111, 957
-  offset: 0, 0
-  index: -1
-lvlbar_fg_prince
-  rotate: false
-  xy: 1497, 4
-  size: 111, 957
-  orig: 111, 957
-  offset: 0, 0
-  index: -1
-lvlbar_fg_princess
-  rotate: false
-  xy: 1612, 965
-  size: 111, 957
-  orig: 111, 957
-  offset: 0, 0
-  index: -1
-ui_bubble
-  rotate: false
-  xy: 1110, 129
-  size: 319, 300
-  orig: 319, 300
-  offset: 0, 0
-  index: -1
-ui_circle_green_normal
-  rotate: false
-  xy: 1110, 129
-  size: 319, 300
-  orig: 319, 300
-  offset: 0, 0
-  index: -1
-ui_button_normal
-  rotate: false
-  xy: 4, 129
-  size: 549, 300
-  orig: 549, 300
-  offset: 0, 0
-  index: -1
-ui_button_pressed
-  rotate: false
-  xy: 557, 129
-  size: 549, 300
-  orig: 549, 300
-  offset: 0, 0
-  index: -1
+  index: 3
 ui_circle_gold_normal
   rotate: false
-  xy: 1612, 661
+  xy: 4, 308
   size: 320, 300
   orig: 320, 300
   offset: 0, 0
   index: -1
 ui_circle_gold_pressed
   rotate: false
-  xy: 1612, 357
+  xy: 1508, 1680
   size: 320, 300
   orig: 320, 300
   offset: 0, 0
   index: -1
-ui_dialogBox
+ui_circle_green_normal
   rotate: false
-  xy: 4, 433
-  size: 1292, 236
-  orig: 1292, 236
+  xy: 328, 308
+  size: 319, 300
+  orig: 319, 300
+  offset: 0, 0
+  index: -1
+ui_circle_green_pressed
+  rotate: false
+  xy: 1508, 1376
+  size: 319, 300
+  orig: 319, 300
+  offset: 0, 0
+  index: -1
+ui_circle_normal
+  rotate: false
+  xy: 328, 4
+  size: 319, 300
+  orig: 319, 300
+  offset: 0, 0
+  index: -1
+ui_circle_pressed
+  rotate: false
+  xy: 651, 308
+  size: 319, 300
+  orig: 319, 300
   offset: 0, 0
   index: -1
 ui_item_cooldown
   rotate: false
-  xy: 1612, 53
+  xy: 4, 4
   size: 320, 300
   orig: 320, 300
-  offset: 0, 0
-  index: -1
-ui_tab_icon_gift
-  rotate: false
-  xy: 1727, 1622
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: -1
-ui_tab_icon_gold
-  rotate: false
-  xy: 1727, 1318
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: -1
-ui_tab_icon_items
-  rotate: false
-  xy: 1727, 1014
-  size: 300, 300
-  orig: 300, 300
   offset: 0, 0
   index: -1
 
@@ -422,32 +457,11 @@ filter: MipMap,MipMap
 repeat: none
 gift_open
   rotate: false
-  xy: 4, 612
-  size: 1489, 1249
-  orig: 1489, 1249
-  offset: 0, 0
-  index: 3
-ui_circle_green_pressed
-  rotate: false
-  xy: 4, 308
-  size: 319, 300
-  orig: 319, 300
-  offset: 0, 0
-  index: -1
-ui_circle_normal
-  rotate: false
-  xy: 1497, 1561
-  size: 319, 300
-  orig: 319, 300
-  offset: 0, 0
-  index: -1
-ui_circle_pressed
-  rotate: false
   xy: 4, 4
-  size: 319, 300
-  orig: 319, 300
+  size: 1500, 1368
+  orig: 1500, 1368
   offset: 0, 0
-  index: -1
+  index: 4
 
 skin6.png
 size: 2048,2048
@@ -457,10 +471,10 @@ repeat: none
 gift_open
   rotate: false
   xy: 4, 4
-  size: 1489, 1249
-  orig: 1489, 1249
+  size: 1500, 1368
+  orig: 1500, 1368
   offset: 0, 0
-  index: 4
+  index: 5
 
 skin7.png
 size: 2048,2048
@@ -470,10 +484,10 @@ repeat: none
 gift_open
   rotate: false
   xy: 4, 4
-  size: 1489, 1249
-  orig: 1489, 1249
+  size: 1500, 1368
+  orig: 1500, 1368
   offset: 0, 0
-  index: 5
+  index: 6
 
 skin8.png
 size: 2048,2048
@@ -483,10 +497,10 @@ repeat: none
 gift_open
   rotate: false
   xy: 4, 4
-  size: 1489, 1249
-  orig: 1489, 1249
+  size: 1500, 1368
+  orig: 1500, 1368
   offset: 0, 0
-  index: 6
+  index: 7
 
 skin9.png
 size: 2048,2048
@@ -496,10 +510,10 @@ repeat: none
 gift_open
   rotate: false
   xy: 4, 4
-  size: 1489, 1249
-  orig: 1489, 1249
+  size: 1500, 1368
+  orig: 1500, 1368
   offset: 0, 0
-  index: 7
+  index: 8
 
 skin10.png
 size: 2048,2048
@@ -509,10 +523,10 @@ repeat: none
 gift_open
   rotate: false
   xy: 4, 4
-  size: 1489, 1249
-  orig: 1489, 1249
+  size: 1500, 1368
+  orig: 1500, 1368
   offset: 0, 0
-  index: 8
+  index: 9
 
 skin11.png
 size: 2048,2048
@@ -522,25 +536,12 @@ repeat: none
 gift_open
   rotate: false
   xy: 4, 4
-  size: 1489, 1249
-  orig: 1489, 1249
-  offset: 0, 0
-  index: 9
-
-skin12.png
-size: 2048,2048
-format: RGBA8888
-filter: MipMap,MipMap
-repeat: none
-gift_open
-  rotate: false
-  xy: 4, 4
-  size: 1489, 1249
-  orig: 1489, 1249
+  size: 1500, 1368
+  orig: 1500, 1368
   offset: 0, 0
   index: 10
 
-skin13.png
+skin12.png
 size: 2048,2048
 format: RGBA8888
 filter: MipMap,MipMap
@@ -548,8 +549,28 @@ repeat: none
 gift_open_front
   rotate: false
   xy: 4, 4
-  size: 1489, 1249
-  orig: 1489, 1249
+  size: 1500, 1368
+  orig: 1500, 1368
+  offset: 0, 0
+  index: -1
+
+skin13.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMap,MipMap
+repeat: none
+intro_bg
+  rotate: false
+  xy: 4, 696
+  size: 1500, 1280
+  orig: 1500, 1280
+  offset: 0, 0
+  index: -1
+logo
+  rotate: false
+  xy: 4, 4
+  size: 1285, 688
+  orig: 1285, 688
   offset: 0, 0
   index: -1
 
@@ -560,8 +581,15 @@ filter: MipMap,MipMap
 repeat: none
 highscore_stone
   rotate: false
-  xy: 4, 4
+  xy: 4, 763
   size: 1383, 1225
   orig: 1383, 1225
+  offset: 0, 0
+  index: -1
+ui_window
+  rotate: false
+  xy: 4, 4
+  size: 1012, 755
+  orig: 1012, 755
   offset: 0, 0
   index: -1

@@ -61,7 +61,9 @@ class Stone: Actor(), Pool.Poolable {
         })
 
         this.addListener(object: ActorGestureListener() {
-            override fun tap(event: InputEvent?, x: Float, y: Float, count: Int, button: Int) {
+
+
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
                 if (actionType != ActionType.Tap) return
 
                 if (isDestroyed) return

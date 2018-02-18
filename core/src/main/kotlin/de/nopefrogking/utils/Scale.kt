@@ -4,7 +4,7 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
-val scale = 2f
+val scale = 1f
 
 val scaleString = DecimalFormat("0", DecimalFormatSymbols(Locale.ENGLISH)).apply {
     maximumFractionDigits = 2

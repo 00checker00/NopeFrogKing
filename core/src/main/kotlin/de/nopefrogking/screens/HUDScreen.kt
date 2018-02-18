@@ -239,14 +239,14 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
             if (!princeBar.isVisible)
                 switchToPrince()
 
-            topItemCooldownSprite.setAngle(360f - (game.state.Cooldowns.getOrDefault(Item.Storm, 0f) * 360))
-            bottomItemCooldownSprite.setAngle(360f - (game.state.Cooldowns.getOrDefault(Item.Umbrella, 0f) * 360))
+            topItemCooldownSprite.setAngle(360f - (game.state.Cooldowns[Item.Storm]?:0f * 360))
+            bottomItemCooldownSprite.setAngle(360f - (game.state.Cooldowns[Item.Umbrella]?:0f * 360))
         } else {
             if (!princessBar.isVisible)
                 switchToPrincess()
 
-            topItemCooldownSprite.setAngle(360f - (game.state.Cooldowns.getOrDefault(Item.Flask, 0f) * 360))
-            bottomItemCooldownSprite.setAngle(360f - (game.state.Cooldowns.getOrDefault(Item.Orb, 0f) * 360))
+            topItemCooldownSprite.setAngle(360f - (game.state.Cooldowns[Item.Flask]?:0f * 360))
+            bottomItemCooldownSprite.setAngle(360f - (game.state.Cooldowns[Item.Orb]?:0f * 360))
         }
 
         stage.act(delta)

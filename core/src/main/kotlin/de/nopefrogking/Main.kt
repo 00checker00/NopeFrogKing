@@ -69,7 +69,7 @@ open class Main : ApplicationAdapter() {
 
                 Assets.preloadAssets(
                     *Gdx.files.internal("particles").list().map { ParticleEffect::class.java assetFrom it.path() with ParticleEffectLoader.ParticleEffectParameter().apply { this.atlasFile = Assets.atlasFile } }.toTypedArray(),
-                    *Gdx.files.internal("sounds").list().map { Sound::class.java assetFrom it.path() }.toTypedArray(),
+                    *Sounds.values().map { Sound::class.java assetFrom it.path }.toTypedArray(),
                     Music::class.java assetFrom "music/menu_bg.mp3",
                     Sound::class.java assetFrom "music/game_bg.wav"
                 )

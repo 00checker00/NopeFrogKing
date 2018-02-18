@@ -156,7 +156,7 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
     }
 
     fun activateItem(item: Item): Boolean {
-        if (Cooldowns.getOrDefault(item, 0f) > 0f)
+        if (Cooldowns[item]?:0f > 0f)
             return false
 
         when(item) {
@@ -580,7 +580,7 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
     }
 
     fun restartGame() {
-        level = 10
+        level = 1
         score = 0f
         levelProgress = 0f
         bonusPoints.clear()
@@ -632,6 +632,8 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
         private val BACKGROUND_SPEED_BASE = 300.0f
         private val BACKGROUND_SPEED_MAX = 2f
 
+
+
         private val STONE_SPAWN_MIN_COUNT = 2
         private val STONE_SPAWN_MAX_COUNT = 8
 
@@ -672,7 +674,7 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
     }
 
     internal class ModifySpeedAction(val gameScreen: GameScreen, val id: String, val end: Float, duration: Float, interpolation: Interpolation = Interpolation.linear): TemporalAction(duration, interpolation) {
-        private val start = gameScreen.speedModifiers.getOrDefault(id, 1f)
+        private val start = gameScreen.speedModifiers[id]?: 1f
 
         override fun update(percent: Float) {
             val d = (start - end) * percent
