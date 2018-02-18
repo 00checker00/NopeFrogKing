@@ -285,11 +285,13 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
     private fun createStone(): Stone {
         val stone = stonepool.obtain()
         stone.y = -Stone.Height
-        val pad = (stage.width - stone.width - princess.width) / 2
+        val padSmall = (stage.width - stone.width)
+        val padLarge  = (stage.width - stone.width) - princess.width/2
+        val pad = if (random.nextFloat() <= 0.3) padLarge else padSmall
         stone.x = pad + random.nextFloat() * (stage.width - 2 * pad - stone.width)
         stone.type = random.nextInt(Stone.NUMBER_OF_TYPES)
 
-        if (!isBossFight && random.nextBoolean()) {
+        if (random.nextFloat() <= BROKEN_STONE_CHANCE.get(isBossFight)) {
             stone.actionType = Stone.ActionType.Tap
         } else {
             stone.actionType = Stone.ActionType.Move
@@ -355,39 +357,34 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
             }
         }
 
-        for (stone in stones) {
-            stone.moveBy(0f, delta * currentSpeed * 0.8f)
+        stones.forEach { stone ->
+            stone.speed = delta * currentSpeed * 0.8f
 
             if ( stone.y > stage.height) {
                 removeStone(stone)
-                continue
-            }
-
-            if (!stone.isDestroyed && !stone.isDisabled) {
-                if (bossStarted) {
-                    if (stone.actionType == Stone.ActionType.Move && stone.intersects(prince)) {
-                        //info { "Stone collided with prince" }
-                        stone.crush()
-                        prince.addAction(Actions.moveBy(0.0f, bossHitDistance, 0.8f, Interpolation.pow2))
-                        prince.hit()
-                    }
-                } else {
-                    val bounds = Rectangle(princess.x, princess.y, princess.width, princess.height)
-                    if (stone.y + stone.height >= princess.y && stone.hitbox.overlaps(bounds)) {
-                        //info { "Stone collided with princess" }
-                        stone.crush()
-                        if (!orbActive) {
-                            game.pauseGame()
-                            game.addScreen(GameOverScreen(game))
-                        } else {
-                            addBonusPoints(100)
+            } else {
+                if (!stone.isDestroyed) {
+                    if (bossStarted) {
+                        if (stone.intersects(prince)) {
+                            //info { "Stone collided with prince" }
+                            stone.crush()
+                            prince.addAction(Actions.moveBy(0.0f, bossHitDistance, 0.8f, Interpolation.pow2))
+                            prince.hit()
+                        }
+                    } else if (!stone.isDisabled) {
+                        val bounds = Rectangle(princess.x, princess.y, princess.width, princess.height)
+                        if (stone.y + stone.height >= princess.y && stone.hitbox.overlaps(bounds)) {
+                            //info { "Stone collided with princess" }
+                            stone.crush()
+                            if (!orbActive) {
+                                game.pauseGame()
+                                game.addScreen(GameOverScreen(game))
+                            } else {
+                                addBonusPoints(100)
+                            }
                         }
                     }
                 }
-
-//            if (stones[i].hitTestObject(princess)) {
-//                dispatchEvent(new CollisionEvent(CollisionEvent.COLLISION, stones[i], princess));
-//            }
             }
         }
 
@@ -397,12 +394,12 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
             if (stoneSmallGap <= 0f) {
                 if (stoneWaveLeft > 0) {
                     stoneWaveLeft--
-                    stoneSmallGap = random.nextFloat(GAP_SMALL_MIN, GAP_SMALL_MAX)
+                    stoneSmallGap = random.nextFloat(GAP_SMALL_MIN.get(isBossFight), GAP_SMALL_MAX.get(isBossFight))
 
                     createStone()
                 } else {
-                    stoneLargeGap = GAP_LARGE
-                    stoneWaveLeft = STONE_SPAWN_MIN_COUNT + random.nextInt(STONE_SPAWN_MAX_COUNT)
+                    stoneLargeGap = GAP_LARGE.get(isBossFight)
+                    stoneWaveLeft = STONE_SPAWN_MIN_COUNT.get(isBossFight) + random.nextInt(STONE_SPAWN_MAX_COUNT.get(isBossFight))
                 }
             }
         }
@@ -435,7 +432,7 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
 
         level++
 
-        val newSpeed =  (1 + (BACKGROUND_SPEED_MAX-1) *  (1 - (1 / Math.pow(2.0, level * 0.1).toFloat())))
+        val newSpeed =  (1 + (BACKGROUND_SPEED_MAX-1) *  (1 - (1 / Math.pow(2.0, level * BACKGROUND_SPEED_QUOTIENT.toDouble()).toFloat())))
 
         stage.addAction(ModifySpeedAction(this, SPEED_MODIFIER_NEXT_LEVEL, newSpeed, 0.4f, Interpolation.pow2))
 
@@ -479,7 +476,7 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
 
         distanceBoss
 
-        stoneLargeGap = GAP_LARGE
+        stoneLargeGap = LEVEL_START_PEACE_PHASE
     }
 
     private fun removeStone(stone: Stone) {
@@ -630,17 +627,23 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
         private val FLASK_DESATURATION_STRENGTH = 0.0f
 
         private val BACKGROUND_SPEED_BASE = 300.0f
-        private val BACKGROUND_SPEED_MAX = 2f
+        private val BACKGROUND_SPEED_MAX = 4f
+        private val BACKGROUND_SPEED_QUOTIENT = 0.1f
 
+        data class PhasedValue<T>(val freefall: T, val boss: T = freefall) {
+            fun get(isBoss: Boolean) = if(isBoss) boss else freefall
+        }
+        private val STONE_SPAWN_MIN_COUNT = PhasedValue(2, 5)
+        private val STONE_SPAWN_MAX_COUNT = PhasedValue(8)
 
+        private val GAP_SMALL_MIN = PhasedValue(0.5f)
+        private val GAP_SMALL_MAX = PhasedValue(1.5f)
 
-        private val STONE_SPAWN_MIN_COUNT = 2
-        private val STONE_SPAWN_MAX_COUNT = 8
+        private val BROKEN_STONE_CHANCE = PhasedValue(0.3, 0.1)
 
-        private val GAP_SMALL_MIN = 0.5f
-        private val GAP_SMALL_MAX = 1.5f
+        private val LEVEL_START_PEACE_PHASE = 4f
 
-        private val GAP_LARGE = 4f
+        private val GAP_LARGE = PhasedValue(0f)
 
         private val ORB_DURATION = 5f
         private val ORB_SPEED_FACTOR = 2.0f

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener
 import com.badlogic.gdx.utils.Pool
 import de.nopefrogking.Assets
 import de.nopefrogking.Sounds
+import de.nopefrogking.utils.debug
 import de.nopefrogking.utils.drawWithTexture
 import ktx.actors.then
 import com.badlogic.gdx.utils.Array as GdxArray
@@ -28,6 +29,8 @@ class Stone: Actor(), Pool.Poolable {
     var destroyListeners = GdxArray<DestroyListener>()
     var flipX: Boolean = false
     var isDisabled: Boolean = false
+
+    var speed = 0f
 
     val hitbox = Rectangle()
 
@@ -130,6 +133,8 @@ class Stone: Actor(), Pool.Poolable {
     }
 
     override fun act(delta: Float) {
+        y += speed
+
         super.act(delta)
 
         val effects = arrayOf(poofEffect, crushEffect).filterNotNull()

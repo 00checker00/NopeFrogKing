@@ -22,7 +22,7 @@ open class Main : ApplicationAdapter() {
     protected var gameScreen: GameScreen? = null
     protected val inputProcessor = InputMultiplexer()
 
-    protected val fixedTimeStep: Float = 1f / 30f
+    protected val fixedTimeStep: Float = 1f / 60f
     protected val maxDeltaTime: Float = 1f
     private var timeSinceLastRender = 0f
 
@@ -140,15 +140,17 @@ open class Main : ApplicationAdapter() {
     }
 
     override fun render() {
-        timeSinceLastRender = Math.min(timeSinceLastRender + Gdx.graphics.rawDeltaTime, maxDeltaTime)
-        while (timeSinceLastRender >= fixedTimeStep) {
-            timeSinceLastRender -= fixedTimeStep
-            update(fixedTimeStep)
-        }
-        if (timeSinceLastRender > 0) {
-            update(timeSinceLastRender)
-            timeSinceLastRender = 0f
-        }
+        //timeSinceLastRender = Math.min(timeSinceLastRender + Gdx.graphics.rawDeltaTime, maxDeltaTime)
+        //while (timeSinceLastRender >= fixedTimeStep) {
+        //    timeSinceLastRender -= fixedTimeStep
+        //    update(fixedTimeStep)
+        //}
+        //if (timeSinceLastRender > 0) {
+        //    update(timeSinceLastRender)
+        //    timeSinceLastRender = 0f
+        //}
+
+        update(Gdx.graphics.deltaTime)
 
         clearScreen(0f, 0f, 0f)
         for (screen in screens) {
