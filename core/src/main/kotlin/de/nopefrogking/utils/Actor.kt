@@ -100,4 +100,7 @@ fun Actor.setHeightByWidth(region: TextureRegion?, centerOrigin: Boolean = true)
 }
 
 fun Actor.intersects(other: Actor): Boolean
-    = Rectangle(x, y, width, height).overlaps(Rectangle(other.x, other.y, other.width, other.height))
+        = Rectangle(x, y, width, height).overlaps(Rectangle(other.x, other.y, other.width, other.height))
+
+fun Actor.intersects(rectangle: Rectangle): Boolean
+        = Rectangle(x, y, width, height).overlaps(rectangle)

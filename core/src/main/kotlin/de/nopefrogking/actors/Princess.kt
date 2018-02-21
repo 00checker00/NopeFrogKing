@@ -1,13 +1,18 @@
 package de.nopefrogking.actors
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import de.nopefrogking.Assets
 import de.nopefrogking.utils.drawWithTexture
+import ktx.actors.repeatForever
+import ktx.actors.then
 
 class Princess: Actor() {
     var t: Float = 0f
@@ -23,8 +28,24 @@ class Princess: Actor() {
 
     var starsEffect: ParticleEffectPool.PooledEffect? = null
 
+    private var rainbowAction: Action? = null
+
+    val hitbox = Rectangle()
+
     var drawStars: Boolean = false
         set(value) {
+            if (value && rainbowAction == null) {
+                rainbowAction = (Actions.color(Color.RED, 0.1f) then
+                        Actions.color(Color.VIOLET, 0.1f) then
+                        Actions.color(Color.BLUE, 0.1f) then
+                        Actions.color(Color.CYAN, 0.1f) then
+                        Actions.color(Color.GREEN, 0.1f) then
+                        Actions.color(Color.YELLOW, 0.1f)).repeatForever()
+                addAction(rainbowAction)
+            } else if (!value && rainbowAction != null) {
+                removeAction(rainbowAction)
+                rainbowAction = null
+            }
             field = value
             starsEffect?.reset()
         }
@@ -48,6 +69,8 @@ class Princess: Actor() {
                 effect.update(delta)
             }
         }
+
+        hitbox.set(x + 15, y, width - 30, height)
     }
 
     override fun draw(batch: Batch, parentAlpha: Float) {
@@ -95,7 +118,7 @@ class Princess: Actor() {
     }
 
     companion object {
-        val Width = 92f
+        val Width = 154f
         val Height = 168f
 
         internal val starsEffectPool: ParticleEffectPool? by Assets.getParticleEffect("particles/Stars.p")

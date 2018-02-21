@@ -11,7 +11,7 @@ import de.nopefrogking.utils.DefaultSkin
 import de.nopefrogking.utils.FontIcon
 import de.nopefrogking.utils.addSpacer
 
-class GiftScreen(game: Main) : WindowScreen(game, "Quest", FontIcon.Present, true, false) {
+class GiftScreen(game: Main) : WindowScreen(game, "Quest", FontIcon.Present, true) {
     private val leftButton: TextButton
     private val rightButton: TextButton
 
@@ -28,11 +28,12 @@ class GiftScreen(game: Main) : WindowScreen(game, "Quest", FontIcon.Present, tru
         isClosable = true
     }
 
+
     override fun createTab(tab: Int): TabDetails {
-        if (tab == 0) {
-            return TabDetails("Quest", DefaultSkin.ui_tab_icon_items)
+        return if (tab == 0) {
+            TabDetails("Quests", DefaultSkin.ui_tab_icon_items)
         } else {
-            return TabDetails("Gifts", DefaultSkin.ui_tab_icon_gift)
+            TabDetails("Gifts", DefaultSkin.ui_tab_icon_gift)
         }
     }
 
@@ -48,7 +49,7 @@ class GiftScreen(game: Main) : WindowScreen(game, "Quest", FontIcon.Present, tru
 
     override fun createContentView(table: Table, tab: Int) {
         if (tab == 1) {
-            table.add(OpenGift()).expand().width(200f * scale).height(200f * scale)
+            table.add(OpenGift(game)).expand().width(200f * scale).height(200f * scale)
         } else {
             val buttonType = ButtonType.CircleSmall
             val size = buttonType.width * scale

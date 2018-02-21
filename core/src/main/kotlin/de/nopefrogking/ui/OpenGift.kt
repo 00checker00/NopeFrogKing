@@ -6,33 +6,47 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable
+import com.badlogic.gdx.utils.Queue
+import de.nopefrogking.Item
+import de.nopefrogking.Main
 import de.nopefrogking.actors.AnimationWidget
 import de.nopefrogking.actors.Bubble
-import de.nopefrogking.utils.DefaultSkin
-import de.nopefrogking.utils.FontIcon
-import de.nopefrogking.utils.UIScale
+import de.nopefrogking.utils.*
 import ktx.actors.alpha
 import ktx.actors.onClick
 import ktx.actors.parallelTo
 import ktx.actors.then
+import ktx.collections.toGdxList
 import ktx.math.plus
 import ktx.math.times
 
 /**
  * Created by Marco Kirchner.
  */
-class OpenGift: AnimationWidget() {
+class OpenGift(private val game: Main): AnimationWidget() {
     var clickCount = 0
     var gift_front = Image(DefaultSkin.gift_open_front())
     var open = false
+
+    sealed class Reward(val icon: NamedAsset<Drawable>) {
+        class Gold(val size: Size): Reward(size.asset) {
+            enum class Size(val asset: NamedAsset<Drawable>, val amount: Long) {
+                Small(DefaultSkin.gold_small, 10L),
+                Medium(DefaultSkin.gold_medium, 20L),
+                Big(DefaultSkin.gold_big, 30L),
+                XL(DefaultSkin.gold_xl, 70L),
+            }
+        }
+        class Item(val item: de.nopefrogking.Item): Reward(item.drawable)
+    }
 
     init {
         animation = Animation(0.44f, DefaultSkin.gift_open())
         paused = true
 
         addActor(gift_front)
-
-        gift_front.debug()
 
         onClick { _, _ ->
             clickCount++
@@ -45,26 +59,34 @@ class OpenGift: AnimationWidget() {
 
                 val pos = Vector2(this@OpenGift.originX, this@OpenGift.originY) + ( BUBBLE_START.cpy() * DefaultSkin.UIScale )
 
+
+                val rewards = arrayListOf(REWARDS_GOLD, REWARDS_GOLD, REWARDS_ITEM)
+                        .sortedBy { random.nextBoolean() }
+                        .toGdxList()
                 BUBBLE_END.forEach {
-                    val bubble = Bubble(DefaultSkin.ui_item_flask).apply {
+                    val reward = rewards.removeFirst().getRandom()
+                    val bubble = Bubble(reward.icon).apply {
                         width = 48 * DefaultSkin.UIScale
-                        height = width
+                        height = 48 * DefaultSkin.UIScale
 
                         x = pos.x
                         y = pos.y
 
                         alpha = 0f
                     }
-                    addActorBefore(gift_front, bubble)
+                    addActor(bubble)
 
-                    val end = Vector2(this@OpenGift.originX, this@OpenGift.originY) + ( it.cpy() * DefaultSkin.UIScale )
+                    val end = pos.cpy() + ( it.cpy() * DefaultSkin.UIScale )
 
                     bubble.addAction(Actions.delay(1.8f)
                             then Actions.fadeIn(0.2f)
                             then Actions.moveTo(end.x, end.y, 1.5f, Interpolation.pow2))
+
+                    when (reward) {
+                        is Reward.Gold -> game.addMoney(reward.size.amount)
+                        is Reward.Item -> SafePreferences { this.item[reward.item] += 1 }
+                    }
                 }
-
-
             } else {
                 val rot = 30f * if (clickCount%2 == 0) -1 else +1
 
@@ -77,7 +99,6 @@ class OpenGift: AnimationWidget() {
                     showFrame(0)
                     touchable = Touchable.enabled
                 })
-
             }
         }
     }
@@ -103,8 +124,34 @@ class OpenGift: AnimationWidget() {
     companion object {
         val GIFT_OPEN_CLICK_COUNT = 5
 
-        val BUBBLE_START = Vector2(0f, -60f)
+        val BUBBLE_START = Vector2(-25f, -10f)
 
         val BUBBLE_END = arrayOf(Vector2(-80f, 35f), Vector2(0f, 50f), Vector2(80f, 35f))
+
+        val REWARDS_ITEM = arrayOf(
+                Reward.Item(Item.Flask),
+                Reward.Item(Item.Flask),
+                Reward.Item(Item.Flask),
+                Reward.Item(Item.Flask),
+                Reward.Item(Item.Storm),
+                Reward.Item(Item.Storm),
+                Reward.Item(Item.Storm),
+                Reward.Item(Item.Storm),
+                Reward.Item(Item.Orb),
+                Reward.Item(Item.Umbrella)
+        )
+
+        val REWARDS_GOLD = arrayOf(
+                Reward.Gold(Reward.Gold.Size.Small),
+                Reward.Gold(Reward.Gold.Size.Small),
+                Reward.Gold(Reward.Gold.Size.Small),
+                Reward.Gold(Reward.Gold.Size.Small),
+                Reward.Gold(Reward.Gold.Size.Medium),
+                Reward.Gold(Reward.Gold.Size.Medium),
+                Reward.Gold(Reward.Gold.Size.Medium),
+                Reward.Gold(Reward.Gold.Size.Big),
+                Reward.Gold(Reward.Gold.Size.Big),
+                Reward.Gold(Reward.Gold.Size.XL)
+        )
     }
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import de.nopefrogking.Assets
 import de.nopefrogking.Main
+import de.nopefrogking.Sounds
 import de.nopefrogking.utils.DefaultSkin
 import de.nopefrogking.utils.DelegatingBlockingInputProcessor
 import de.nopefrogking.utils.UIScale
@@ -49,6 +50,15 @@ open class MenuBackgroundScreen(game: Main) : BaseScreenAdapter(game) {
         stage.addActor(introPrincessView)
         stage.addActor(introCastleView)
         stage.addActor(introWellView)
+
+        queueFrogSound()
+    }
+
+    private fun queueFrogSound() {
+        stage.addAction(Actions.delay(20 + Math.random().toFloat() * 20) then Actions.run {
+            Sounds.frog_ribit().play()
+            queueFrogSound()
+        })
     }
 
     override val priority: Int

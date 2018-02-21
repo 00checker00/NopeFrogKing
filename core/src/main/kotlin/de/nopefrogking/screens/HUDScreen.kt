@@ -1,15 +1,19 @@
 package de.nopefrogking.screens
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputProcessor
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.utils.viewport.ExtendViewport
+import de.nopefrogking.GameState
 import de.nopefrogking.Item
 import de.nopefrogking.Main
 import de.nopefrogking.Sounds
+import de.nopefrogking.ui.GoldBar
 import de.nopefrogking.ui.LevelProgressBar
 import de.nopefrogking.ui.ScoreBar
 import de.nopefrogking.ui.levelProgressBar
@@ -18,6 +22,7 @@ import de.project.ice.screens.BaseScreenAdapter
 import ktx.actors.onClick
 import ktx.actors.parallelTo
 import ktx.actors.then
+import ktx.collections.isNotEmpty
 import ktx.scene2d.*
 
 
@@ -28,8 +33,13 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
 
     private lateinit var princessBar: LevelProgressBar
     private lateinit var princeBar: LevelProgressBar
+
     private val score = ScoreBar(DefaultSkin)
+    private val gold = GoldBar(DefaultSkin)
     private lateinit var bonusArea: WidgetGroup
+
+    val scoreVisible get() = score.scaleY == 1f
+    val goldVisible get() = gold.scaleY == 1f
 
     private lateinit var itemFlaskBtn: ImageTextButton
     private lateinit var itemOrbBtn: ImageTextButton
@@ -38,21 +48,35 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
 
     private lateinit var topItemCooldown: Image
     private lateinit var topItemCooldownSprite: RadialSprite
+    private lateinit var topItemCount: ImageTextButton
     private lateinit var bottomItemCooldown: Image
     private lateinit var bottomItemCooldownSprite: RadialSprite
+    private lateinit var bottomItemCount: ImageTextButton
+
+    private val hudWidgets = ArrayList<Actor>()
+
+    private var showGoldFor = 0f
+
+    var hudVisible: Boolean = true
+        set(value) {
+            if (value != field) {
+                hudWidgets.forEach { it.isVisible = value }
+            }
+            field = value
+        }
 
     override val inputProcessor: InputProcessor = DelegatingInputProcessor(stage)
 
     init {
-//        if (Config.RENDER_DEBUG) {
-//            stage.setDebugAll(true)
-//        }
         stage.viewport = ExtendViewport(450f * scale, 800f * scale, OrthographicCamera())
+
+        val targetHeight = Gdx.graphics.width / GameScreen.SCREEN_RATION
+        val verticalPadding = maxOf(0f, Gdx.graphics.height - targetHeight) / 2f
 
         root = table(DefaultSkin) {
             setFillParent(true)
             stack { cell ->
-                princeBar = levelProgressBar(DefaultSkin.prince()) {
+                princeBar = levelProgressBar(DefaultSkin.princeBar()) {
                     top()
                     left()
                     padLeft(20 * scale)
@@ -60,7 +84,7 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
 
                     isVisible = false
                 }
-                princessBar = levelProgressBar(DefaultSkin.princess()) {
+                princessBar = levelProgressBar(DefaultSkin.princessBar()) {
                     top()
                     left()
                     padLeft(20 * scale)
@@ -70,6 +94,8 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
                 val ratio = princessBar.prefHeight/princessBar.prefWidth
                 cell.width(40f * scale)
                 cell.height(40f * ratio * scale)
+
+                hudWidgets.add(this)
             }
 
             addSpacer().expandX()
@@ -77,7 +103,11 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
             table(DefaultSkin) { cell ->
                 cell.top()
 
-                add(score)
+                stack {
+                    add(score)
+                    add(gold.apply { scaleY = 0f })
+                }
+
 
                 row()
                 bonusArea = object: WidgetGroup() {
@@ -91,6 +121,8 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
                     expandX()
                     fillX()
                 }
+
+                hudWidgets.add(score)
             }
             row()
 
@@ -100,11 +132,13 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
 
                 onClick { _, _ ->
                     game.pauseGame()
-                    game.addScreen(PauseScreen(game))
+                    game.addScreen(GameOverScreen(game))
                     Sounds.click().play()
                 }
 
                 disableToggle()
+
+                hudWidgets.add(this)
             }
             row()
 
@@ -140,6 +174,8 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
                         topItemCooldown = image(DefaultSkin.ui_item_cooldown.name, DefaultSkin).apply {
                             drawable = topItemCooldownSprite
                         }
+
+                        topItemCount = addSubIcon(DefaultSkin.menuNoCircle() )
                     }
 
                     row()
@@ -164,21 +200,27 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
                         bottomItemCooldown = image(DefaultSkin.ui_item_cooldown.name, DefaultSkin).apply {
                             drawable = bottomItemCooldownSprite
                         }
+
+                        bottomItemCount = addSubIcon(DefaultSkin.menuNoCircle() , "")
                     }
                 }
+
+                hudWidgets.add(this)
             }
-
-
 
             addSpacer().fillX().row()
             addSpacer().fillY()
+
+            pad(verticalPadding, 0f, verticalPadding, 0f)
         }
 
         stage.addActor(root)
 
         score.onClick { _, _ ->
+            showGoldFor = SHOW_GOLD_DURATION
         }
 
+        switchToGold()
     }
 
     fun switchToPrince() {
@@ -207,19 +249,35 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
         })
     }
 
+    fun switchToGold() {
+        score.addAction(Actions.scaleTo(1f, 0f, ITEM_SWITCH_TIME) then Actions.run {
+            gold.addAction(Actions.scaleTo(1f, 1f, ITEM_SWITCH_TIME))
+        })
+    }
+
+    fun switchToScore() {
+        gold.addAction(Actions.scaleTo(1f, 0f, ITEM_SWITCH_TIME) then Actions.run {
+            score.addAction(Actions.scaleTo(1f, 1f, ITEM_SWITCH_TIME))
+        })
+    }
+
     override val priority: Int
-        get() = 150
+        get() = 100
 
 
     override fun resize(width: Int, height: Int) {
         stage.viewport.update(width, height, true)
     }
 
-    var test = 0f
     override fun update(delta: Float) {
+        hudVisible = game.state.state == GameState.State.Running && !game.state.isPaused
+
         princeBar.progress = game.state.levelProgress
         princessBar.progress = game.state.levelProgress
+        princeBar.boss = game.state.bossBegin
+        princessBar.boss = game.state.bossBegin
         score.score = game.state.score
+        gold.gold = game.gold
 
         game.state.bonusPoints.forEach {
             val label = Label("+$it", DefaultSkin.bonusPointsLabel()).apply {
@@ -235,23 +293,63 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
         }
         game.state.bonusPoints.clear()
 
+        game.state.bonusMoney.forEach {
+            val label = Label("+$it", DefaultSkin.bonusPointsLabel().apply { fontColor = Color.YELLOW }).apply {
+                y = (bonusArea.children.minBy { it.y }?.y ?: 0f) - height
+                addAction(
+                        (Actions.alpha(0f, 0f) parallelTo Actions.moveBy(0f, 3*scale, 0f))
+                                then (Actions.fadeIn(0.5f) parallelTo Actions.moveBy(0f, -3*scale, 0.2f))
+                                then (Actions.fadeOut(0.5f) parallelTo Actions.moveBy(0f, -y, 1f))
+                                then Actions.run { remove() }
+                )
+            }
+            bonusArea.addActor(label)
+        }
+        if (game.state.bonusMoney.isNotEmpty()) showGoldBar()
+        game.state.bonusMoney.clear()
+
+        val cooldown = 360f - (game.state.cooldowns.values.max() ?: 0f) * 360
+
         if (game.state.isBossFight) {
             if (!princeBar.isVisible)
                 switchToPrince()
 
-            topItemCooldownSprite.setAngle(360f - (game.state.Cooldowns[Item.Storm]?:0f * 360))
-            bottomItemCooldownSprite.setAngle(360f - (game.state.Cooldowns[Item.Umbrella]?:0f * 360))
+            topItemCooldownSprite.setAngle(if (SafePreferences { item[Item.Storm] } == 0) 0f else cooldown )
+            bottomItemCooldownSprite.setAngle(if (SafePreferences { item[Item.Umbrella] } == 0) 0f else cooldown)
+
+            SafePreferences {
+                topItemCount.text = "${item[Item.Storm]}"
+                bottomItemCount.text = "${item[Item.Umbrella]}"
+            }
         } else {
             if (!princessBar.isVisible)
                 switchToPrincess()
 
-            topItemCooldownSprite.setAngle(360f - (game.state.Cooldowns[Item.Flask]?:0f * 360))
-            bottomItemCooldownSprite.setAngle(360f - (game.state.Cooldowns[Item.Orb]?:0f * 360))
+            topItemCooldownSprite.setAngle(if (SafePreferences { item[Item.Flask] } == 0) 0f else cooldown)
+            bottomItemCooldownSprite.setAngle(if (SafePreferences { item[Item.Orb] } == 0) 0f else cooldown)
+
+            SafePreferences {
+                topItemCount.text = "${item[Item.Flask]}"
+                bottomItemCount.text = "${item[Item.Orb]}"
+            }
+        }
+
+        if (showGoldFor > 0) {
+            showGoldFor -= delta
+        }
+
+        if (scoreVisible && ((game.state.isPaused && game.state.isRunning) || showGoldFor > 0)) {
+            switchToGold()
+        } else if (goldVisible && (showGoldFor <= 0f && (!game.state.isPaused || !game.state.isRunning)) ) {
+            switchToScore()
         }
 
         stage.act(delta)
     }
 
+    fun showGoldBar() {
+        showGoldFor = 2f
+    }
 
     override fun show() {
         game.addScreen(GameMessageScreen(game))
@@ -262,10 +360,8 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
     }
 
     override fun render() {
-        if (!game.state.isPaused) {
-            stage.viewport.apply()
-            stage.draw()
-        }
+        stage.viewport.apply()
+        stage.draw()
     }
 
     override fun dispose() {
@@ -275,5 +371,6 @@ open class HUDScreen(game: Main) : BaseScreenAdapter(game) {
         private val SIDEBAR_BTN_SIZE = 50
         private val ITEM_CIRCLE_SIZE = SIDEBAR_BTN_SIZE * 0.8f
         private val ITEM_SWITCH_TIME = 0.2f
+        private val SHOW_GOLD_DURATION = 2f
     }
 }

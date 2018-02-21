@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.ParticleEffect
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.Stage
 import de.nopefrogking.Assets
 import de.nopefrogking.Sounds
 import de.nopefrogking.utils.drawWithTexture
@@ -29,6 +29,8 @@ class Prince: Actor() {
     var hitsTillDamaged: Int = 8
 
     private var electrified = false
+
+    val hitbox = Rectangle()
 
     private var hit = false
 
@@ -55,6 +57,8 @@ class Prince: Actor() {
         super.act(delta)
         t += delta
         hitT += delta
+
+        hitbox.set(x + 10, y, width - 20, height)
     }
 
     override fun draw(batch: Batch, parentAlpha: Float) {
@@ -97,7 +101,7 @@ class Prince: Actor() {
     }
 
     companion object {
-        val Width = 68f
+        val Width = 89f
         val Height = 131f
     }
 }

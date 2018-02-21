@@ -85,6 +85,6 @@ class CircleFadeShader: ShaderProgram(vertexShader, fragmentShader) {
                 0,
                 2
         )
-        setUniformf(radiusUniformLocation, radius)
+        setUniformf(radiusUniformLocation, radius/maxOf(Gdx.graphics.width, Gdx.graphics.height))
     }
 }

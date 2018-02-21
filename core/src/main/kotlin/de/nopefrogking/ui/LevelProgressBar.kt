@@ -56,7 +56,7 @@ class LevelProgressBar(style: LevelProgressBarStyle): WidgetGroup() {
         style.background?.draw(batch, x, y, width, height)
 
         batch.flush()
-        if (clipBegin(x, y, width, height * boss)) {
+        if (clipBegin(x, y, width, height * (1 - boss))) {
             style.boss?.draw(batch, x, y, width, height)
             batch.flush()
             clipEnd()

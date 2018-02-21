@@ -2,9 +2,9 @@ package de.nopefrogking.utils
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
-import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import de.nopefrogking.Assets
 import de.nopefrogking.ui.levelProgressBarStyle
 
@@ -64,7 +64,7 @@ internal val menuIconsXSFreetype = Assets.fontManager.load {
     characters = ICON_CHARS
     borderWidth = 1.5f * scale
     borderColor = com.badlogic.gdx.graphics.Color.BLACK
-    size = (18 * scale).toInt()
+    size = (30 * scale).toInt()
 }
 internal val menuIconsSmallFreetype = Assets.fontManager.load {
     name = "menuIconsSmallFreetype"
@@ -134,13 +134,18 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
     val ui_window_title by drawable().cached()
     val ui_window_tab_left by drawable().cached()
     val ui_window_tab_right by drawable().cached()
-    val ui_window_sheet by drawable().cached()
+    val ui_window_sheet_normal by drawable().cached()
+    val ui_window_sheet_gold by drawable().cached()
     val ui_powerups_bg by drawable().cached()
     val ui_premium_badge by drawable().cached()
     val ui_premium_highlight by drawable().cached()
-    val ui_bubble by drawable().cached()
+    val ui_scrollbar_knob_vertical by drawable().cached()
     val logo by drawable().cached()
     val coin by drawable().cached()
+    val gold_small by drawable().cached()
+    val gold_medium by drawable().cached()
+    val gold_big by drawable().cached()
+    val gold_xl by drawable().cached()
     val intro_bg by drawable().cached()
     val intro_cloud by drawable().cached()
     val intro_princess by drawable().cached()
@@ -150,12 +155,22 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
     val ui_item_flask by drawable().cached()
     val ui_item_orb by drawable().cached()
     val ui_item_umbrella by drawable().cached()
+    val gift_icon by drawable().cached()
+    val lvlbar_icon by drawable().cached()
+    val prince by drawable().cached()
+    val stone by drawable().cached()
+    val stone_broken by drawable().cached()
+    val highscore_prince by drawable().cached()
+    val highscore_stone by drawable().cached()
+    val gameover_prince by drawable().cached()
+    val gameover_stone by drawable().cached()
     /******* End Drawables *******/
 
     /******* TextureRegions *******/
     val ui_item_cooldown by textureRegion().cached()
     val gift_open_front by textureRegion().cached()
     val gift_open by textureRegions().cached()
+    val bubble_pop by textureRegions().cached()
     /******* End TextureRegions *******/
 
     /******* Colors *******/
@@ -187,21 +202,25 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
     }.cached()
     val bonusPointsLabel by labelStyle {
         font = hudProgressFont()
-        fontColorHex ="#ffffff"
+        fontColorHex = "#ffffff"
     }.cached()
     val gameMessage by labelStyle {
         font = menuFont()
-        fontColorHex ="#ffffff"
+        fontColorHex = "#ffffff"
     }.cached()
     val windowTitle by labelStyle {
         font = menuFont()
         background = ui_window_title()
-        fontColorHex ="#ffffff"
+        fontColorHex = "#ffffff"
     }.cached()
     val menu by labelStyle {
         font = menuSmall()
-        fontColorHex ="#ffffff"
+        fontColorHex = "#ffffff"
     }.cached()
+    val pauseIcons by labelStyle {
+        font = menuIconsXS()
+        fontColorHex = "#ffffff"
+    }
     /******* End Labels *******/
 
 
@@ -214,8 +233,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         unpressedOffsetY = 5f * scale
         pressedOffsetY = unpressedOffsetY - (5f * scale)
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val menuCircleToggle by textButtonStyle {
@@ -226,8 +245,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         unpressedOffsetY = (5f * scale)
         pressedOffsetY = unpressedOffsetY - (5f * scale)
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val menuCircle by textButtonStyle {
@@ -238,8 +257,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         unpressedOffsetY = (5f * scale)
         pressedOffsetY = unpressedOffsetY - (5f * scale)
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val menuCircleSmall by textButtonStyle {
@@ -249,8 +268,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         checked = down
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val menuCircleXS by textButtonStyle {
@@ -260,8 +279,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         checked = down
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val menuCircleXSImage by imageTextButtonStyle {
@@ -271,8 +290,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         checked = down
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val menuCircleXSCoin by imageTextButtonStyle {
@@ -280,7 +299,7 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         up = coin()
         down = up
         checked = down
-        fontColorHex ="#ffffff"
+        fontColorHex = "#ffffff"
     }.cached()
     val menuCircleXSText by textButtonStyle {
         font = menuXS()
@@ -289,8 +308,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         checked = down
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val menuCircleMedium by textButtonStyle {
@@ -302,8 +321,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         disabled = up
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val menuCircleSmallText by textButtonStyle {
@@ -313,20 +332,24 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         checked = down
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val hudProgressText by textButtonStyle {
         font = hudProgressFont()
-        fontColorHex ="#ffffff"
+        fontColorHex = "#ffffff"
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        downFontColorHex ="#009900"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     /******* End TextButtons *******/
 
+
+    val menuScrollPane by scrollPaneStyle {
+        this.vScrollKnob = ui_scrollbar_knob_vertical()
+    }
 
     /******* ImageTextButtons *******/
     val menuCircleGoldSmall by imageTextButtonStyle {
@@ -336,8 +359,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         checked = down
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val menuCircleGoldSmallIcon by imageTextButtonStyle {
@@ -347,8 +370,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         checked = down
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val menuCircleGreenSmall by imageTextButtonStyle {
@@ -358,8 +381,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         checked = down
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val menuCircleGreenXS by imageTextButtonStyle {
@@ -367,16 +390,16 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         up = ui_circle_green_normal()
         down = ui_circle_green_pressed()
         pressedOffsetY = -5f * scale
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#ffffff"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#ffffff"
     }.cached()
     val menuCircleYellowXS by imageTextButtonStyle {
         font = menuIconsXS()
         up = ui_circle_gold_normal()
         down = ui_circle_gold_pressed()
         pressedOffsetY = -5f * scale
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#ffffff"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#ffffff"
     }.cached()
     val menuInputSmall by imageTextButtonStyle {
         font = menuSmall()
@@ -385,8 +408,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         checked = down
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#000000"
-        downFontColorHex ="#000000"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#ffffff"
         checkedFontColor = downFontColor
     }.cached()
     val menuCircleGreenSmallText by imageTextButtonStyle {
@@ -396,19 +419,23 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         checked = down
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        fontColorHex ="#ffffff"
-        downFontColorHex ="#009900"
+        fontColorHex = "#ffffff"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
+    }.cached()
+    val menuNoCircle by imageTextButtonStyle {
+        font = menuSmall()
+        fontColorHex = "#ffffff"
     }.cached()
     val hudProgressIcon by imageTextButtonStyle {
         font = hudProgressIconFont()
         up = ui_circle_normal()
         down = ui_circle_pressed()
         checked = down
-        fontColorHex ="#ffffff"
+        fontColorHex = "#ffffff"
         pressedOffsetY = -5f * scale
         checkedOffsetY = pressedOffsetY
-        downFontColorHex ="#009900"
+        downFontColorHex = "#009900"
         checkedFontColor = downFontColor
     }.cached()
     val windowTabTopLeft by imageTextButtonStyle {
@@ -424,14 +451,14 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
     /******* End ImageTextButtons *******/
 
     /******* LevelProgressBars *******/
-    val princess by levelProgressBarStyle {
+    val princessBar by levelProgressBarStyle {
         background = lvlbar_bg()
         foreground = lvlbar_fg_princess()
         boss = lvlbar_bg_prince()
         handle = lvlbar_handle_princess()
         handleSize = 1.2f
     }.cached()
-    val prince by levelProgressBarStyle {
+    val princeBar by levelProgressBarStyle {
         background = lvlbar_bg()
         foreground = lvlbar_fg_prince()
         boss = lvlbar_bg_prince()
@@ -452,16 +479,16 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
         background = ui_window_small()
         titleFont = noTextFont()
     }.cached()
-    val windowSheet by windowStyle {
-        background = ui_window_sheet()
+    val windowSheetGold by windowStyle {
+        background = ui_window_sheet_gold()
         titleFont = noTextFont()
     }.cached()
-
+    val windowSheetNormal by windowStyle {
+        background = ui_window_sheet_normal()
+        titleFont = noTextFont()
+    }.cached()
     /******* End Windows *******/
 
-    override fun getRegions(regionName: String?): Array<TextureRegion> {
-        return super.getRegions(regionName)
-    }
 }
 
 private val scaledSkin = ScaledSkin("ui/{}x/skin.atlas", ::NopeFrogKingSkin)

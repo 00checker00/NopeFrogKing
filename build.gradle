@@ -1,3 +1,5 @@
+import groovy.io.FileType
+
 buildscript {
   repositories {
     mavenLocal()
@@ -44,6 +46,54 @@ tasks.eclipse.doLast {
   delete '.settings/'
 }
 
+task genVideos << {
+  def project = 'core'             // Will contain generated enum class.
+  def source = 'src/main/kotlin'   // Kotlin source path of the project.
+  def pack = 'de.nopefrogking'     // Enum target package.
+  def name = 'Videos'              // Enum class name.
+  def fileName = 'Videos.kt'       // Name of Kotlin file containing the enum.
+  def assetDir = 'assets'          // Path to assets folder.
+  def videosDir = 'videos'         // Path to videos folder relative to the assets.
+
+  println("Processing videos folder at ${assetDir}/${videosDir}...")
+  def builder = new StringBuilder()
+  builder.append("""package ${pack}
+                   |
+                   |/** Generated from ${assetDir}/${videosDir} dir. */
+                   |enum class ${name}(val path: String, val width: Int, val height: Int) {
+                   |""".stripMargin())
+
+  def newLine = System.getProperty("line.separator")
+  def root = file(assetDir)
+  new File(root, videosDir).eachFileMatch(FileType.ANY, ~/.*?\.(mp4|mkv)/) { file ->
+    def filename = file.name.lastIndexOf('.').with {it != -1 ? file.name[0..<it] : file.name}
+    def infoFile = new File(file.parentFile, "${file.name}.info")
+    if (!infoFile.exists()) {
+      println("No .info file for ${file.name}...")
+    } else {
+      def info = infoFile.getText()
+      def resolution = info.split("x")
+      def relative = root.toPath().relativize(file.toPath()).toFile().path.replace("\\", "/")
+      builder.append("    ${filename}(\"${relative}\", ${resolution[0]}, ${resolution[1]})").append(newLine)
+    }
+  }
+  builder.append("""    
+                   |}
+                   |""".stripMargin())
+
+  source = source.replace('/', File.separator)
+  pack = pack.replace('.', File.separator)
+  def path = project + File.separator + source + File.separator + pack +
+          File.separator + fileName
+  println("Saving videos enum at ${path}...")
+  def enumFile = file(path)
+  delete enumFile
+  enumFile.getParentFile().mkdirs()
+  enumFile.createNewFile()
+  enumFile << builder << newLine
+  println("Done. Videos enum generated.")
+}
+
 // Run `gradle pack` task to generate skin.atlas file at assets/ui.
 task genSounds << {
   def project = 'core'             // Will contain generated enum class.
@@ -63,19 +113,19 @@ task genSounds << {
                    |import com.badlogic.gdx.audio.Sound
                    |
                    |/** Generated from ${assetDir}/${soundDir} dir. */
-                   |enum class ${name}(path: String) {
+                   |enum class ${name}(val path: String) {
                    |""".stripMargin())
 
   def newLine = System.getProperty("line.separator")
   def root = file(assetDir)
-  new File(root, soundDir).eachFileMatch(groovy.io.FileType.ANY, ~/.*?\.(wav|mp3)/) { file ->
+  new File(root, soundDir).eachFileMatch(FileType.ANY, ~/.*?\.(wav|mp3)/) { file ->
       def filename = file.name.lastIndexOf('.').with {it != -1 ? file.name[0..<it] : file.name}
       def relative = root.toPath().relativize(file.toPath()).toFile().path.replace("\\", "/")
       builder.append('    ').append(filename).append('("').append(relative).append('"),').append(newLine)
   }
   builder.append("""    ;
                    |
-                   |    val sound: Sound = Assets.manager.get(path, Sound::class.java)
+                   |    val sound: Sound by lazy { Assets.manager.get(path, Sound::class.java) }
                    |
                    |    @Suppress("NOTHING_TO_INLINE")
                    |    inline operator fun invoke() = sound

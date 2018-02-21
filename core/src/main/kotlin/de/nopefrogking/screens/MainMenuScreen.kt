@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport
 import de.nopefrogking.I18N
 import de.nopefrogking.Main
 import de.nopefrogking.Sounds
+import de.nopefrogking.Videos
 import de.nopefrogking.utils.*
 import de.project.ice.screens.BaseScreenAdapter
 import ktx.actors.onChange
@@ -65,12 +66,12 @@ open class MainMenuScreen(game: Main) : BaseScreenAdapter(game) {
 //                inputProcessor.detached = false
 //            })
             val rect = Rectangle().apply {
-                width = Gdx.graphics.width * 0.8f
-                height = width/16*9
-                y = 150f * scale
-                x = (Gdx.graphics.width - width) / 2
+                height = Gdx.graphics.height.toFloat()
+                width = Videos.intro.width.toFloat()/Videos.intro.height.toFloat() * height
+                y = 0f
+                x = Gdx.graphics.width/2f - width/2
             }
-            PlatformHandler.Instance?.showVideo(Gdx.files.internal("test.mp4"), rect) {
+            PlatformHandler.Instance?.showVideo(Gdx.files.internal(Videos.intro.path), rect) {
                 game.startNewGame()
                 game.removeScreen(this, true)
                 inputProcessor.detached = false
@@ -87,7 +88,8 @@ open class MainMenuScreen(game: Main) : BaseScreenAdapter(game) {
         connectButtons(
                 insertMenuButton(ButtonProperties(BUTTON_CREDITS_TEXT_ID, ButtonType.Button), I18N.menu_credits(), BUTTON_CREDITS_GROUP_ID),
                 insertMenuButton(ButtonProperties(BUTTON_CREDITS_ICON_ID, ButtonType.CircleToggle), FontIcon.Credits(), BUTTON_CREDITS_GROUP_ID)) {
-            println("CREDITS!!!!")
+            SafePreferences { reset() }
+            game.showToastMessages("Reset!")
         }
 
         createButtonGroup(BUTTON_VARIOUS_GROUP_ID).apply { center() }
@@ -97,7 +99,9 @@ open class MainMenuScreen(game: Main) : BaseScreenAdapter(game) {
         insertMenuButton(ButtonProperties(BUTTON_HIGHSCORE_ID, ButtonType.CircleSmall), FontIcon.Highscore(), BUTTON_VARIOUS_GROUP_ID) {
             PlatformHandler.Instance?.displayLeaderBoard()
         }
-        insertMenuButton(ButtonProperties(BUTTON_INFO_ID, ButtonType.CircleSmall), FontIcon.Info(), BUTTON_VARIOUS_GROUP_ID)
+        insertMenuButton(ButtonProperties(BUTTON_INFO_ID, ButtonType.CircleSmall), FontIcon.Info(), BUTTON_VARIOUS_GROUP_ID) {
+            switchToScreen(TutorialScreen(game))
+        }
         insertMenuButton(ButtonProperties(BUTTON_SETTINGS_ID, ButtonType.CircleSmall), FontIcon.Options(), BUTTON_VARIOUS_GROUP_ID) {
             PlatformHandler.Instance?.login()
         }
@@ -133,18 +137,17 @@ open class MainMenuScreen(game: Main) : BaseScreenAdapter(game) {
     }
 
     protected fun insertMenuButton(properties: ButtonProperties, text: String, idGroup: String, listener: ClickListener? = null): TextButton {
-
         val group = buttonGroups[idGroup] ?: createButtonGroup(idGroup)
 
         return group.let {
 
             val button = createButton(properties, text)
             if (listener != null) {
-                button.onClick { _, _ -> listener(); Sounds.click().play() }
+                button.onClick { _, _ -> listener() }
             }
 
             it.addActor(button)
-            buttons.put(properties.id, button)
+            buttons[properties.id] = button
 
             button
         }
@@ -157,7 +160,7 @@ open class MainMenuScreen(game: Main) : BaseScreenAdapter(game) {
 
             val button = createButton(properties, text)
             if (listener != null) {
-                button.onClick { _, _ -> listener(); Sounds.click().play() }
+                button.onClick { _, _ -> listener() }
             }
 
 
@@ -189,7 +192,10 @@ open class MainMenuScreen(game: Main) : BaseScreenAdapter(game) {
         return object: TextButton(text, properties.type.style()){
             override fun getPrefWidth(): Float = properties.type.width * scale
             override fun getPrefHeight(): Float = properties.type.height * scale
-        }.apply { onChange { _, _ -> isChecked = false; Sounds.click().play() } }
+        }.apply {
+            onChange { _, _ -> isChecked = false }
+            onClick { _, _ -> Sounds.click().play() }
+        }
     }
 
 

@@ -26,10 +26,11 @@ open class IconBar private constructor(
         iconDrawable: String?,
         val options: IconBarOptions = IconBarOptions()) : Table(skin) {
 
-    private val scale = DefaultSkin.UIScale
     private val clickListener: com.badlogic.gdx.scenes.scene2d.utils.ClickListener
     lateinit var contentButton: TextButton; private set
+    lateinit var contentButtonCell: Cell<*>; private set
     lateinit var iconButton: ImageTextButton; private set
+    lateinit var iconButtonCell: Cell<*>; private set
     private lateinit var bar: Image
     private lateinit var barEnd: Image
     private val isPressed get() = clickListener.isVisualPressed
@@ -74,7 +75,9 @@ open class IconBar private constructor(
                 table(DefaultSkin) {
                     setFillParent(true)
 
-                    addSpacer().width(options.barHeight * scale / 2).height(options.barHeight * scale)
+                    addSpacer()
+                            .width(options.barHeight * scale / 2)
+                            .height(options.barHeight * scale)
 
                     bar = image(options.barStyle, DefaultSkin) { cell ->
                         cell.expandX()
@@ -86,7 +89,10 @@ open class IconBar private constructor(
                 table(DefaultSkin) {
                     setFillParent(true)
 
-                    addSpacer().expandX().height(options.barHeight * scale)
+                    addSpacer()
+                            .expandX()
+                            .minWidth(options.barHeight/2 * scale)
+                            .height(options.barHeight * scale)
 
                     barEnd = image(options.barEndStyle, DefaultSkin) { cell ->
                         val ratio = width / height
@@ -102,6 +108,8 @@ open class IconBar private constructor(
 
                         cell.padLeft(options.barHeight * scale + 5 * scale)
                         cell.padRight(10 * scale)
+
+                        contentButtonCell = cell
                     }
                 }
                 table(DefaultSkin) {
@@ -109,6 +117,8 @@ open class IconBar private constructor(
                     val ratio = options.iconStyle().up.minWidth / options.iconStyle().up.minHeight
                     iconButton = iconDrawable?.let {
                         imageTextButton("", options.iconStyle.name, DefaultSkin) { cell ->
+                            iconButtonCell = cell
+
                             cell.height(options.barHeight * scale)
                             cell.width(options.barHeight * scale * ratio)
                         }.apply {
@@ -116,6 +126,8 @@ open class IconBar private constructor(
                             imageCell.expand().fill()
                         }
                     } ?: imageTextButton(icon(), options.iconStyle.name, DefaultSkin) { cell ->
+                            iconButtonCell = cell
+
                             cell.height(options.barHeight * scale)
                             cell.width(options.barHeight * scale * ratio)
                         }
@@ -161,8 +173,8 @@ open class IconBar private constructor(
         if (this._isChecked == isChecked) return
         this._isChecked = isChecked
         val postfix = if (isChecked) "_pressed" else ""
-        bar.setDrawable(skin, "ui_score_bar$postfix")
-        barEnd.setDrawable(skin, "ui_score_end$postfix")
+        bar.setDrawable(skin, "${options.barStyle}$postfix")
+        barEnd.setDrawable(skin, "${options.barEndStyle}$postfix")
         iconButton.isChecked = isChecked
         contentButton.isChecked = isChecked
         if (fireEvent)

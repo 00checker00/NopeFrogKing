@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Button
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton
+import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import de.nopefrogking.screens.ButtonType
 import de.nopefrogking.screens.ClickListener
@@ -58,10 +59,10 @@ fun Button.disableToggle() {
     onChange { _, _ -> isChecked = false }
 }
 
-fun Button.addSubIcon(style: ImageTextButton.ImageTextButtonStyle, icon: FontIcon = FontIcon.Nothing, drawable: Drawable? = null, offset: Float = 5.0f * scale, size: Float = ButtonType.CircleXSText.width * scale)
+fun Table.addSubIcon(style: ImageTextButton.ImageTextButtonStyle, icon: FontIcon = FontIcon.Nothing, drawable: Drawable? = null, offset: Float = 5.0f * scale, size: Float = ButtonType.CircleXSText.width * scale)
     = addSubIcon(style, icon(), drawable, offset)
 
-fun Button.addSubIcon(style: ImageTextButton.ImageTextButtonStyle, text: String, drawable: Drawable? = null, offset: Float = 5.0f * scale, size: Float = ButtonType.CircleXSText.width * scale): ImageTextButton {
+fun Table.addSubIcon(style: ImageTextButton.ImageTextButtonStyle, text: String, drawable: Drawable? = null, offset: Float = 5.0f * scale, size: Float = ButtonType.CircleXSText.width * scale): ImageTextButton {
     val btn = ImageTextButton(text, style)
     if (drawable != null)
         btn.image.drawable = drawable
@@ -77,10 +78,10 @@ fun Button.addSubIcon(style: ImageTextButton.ImageTextButtonStyle, text: String,
     return btn
 }
 
-fun Button.addSuperIcon(style: ImageTextButton.ImageTextButtonStyle, icon: FontIcon = FontIcon.Nothing, drawable: Drawable? = null, offset: Float = 5.0f * scale, size: Float = ButtonType.CircleXSText.width * scale)
+fun Table.addSuperIcon(style: ImageTextButton.ImageTextButtonStyle, icon: FontIcon = FontIcon.Nothing, drawable: Drawable? = null, offset: Float = 5.0f * scale, size: Float = ButtonType.CircleXSText.width * scale)
         = addSuperIcon(style, icon(), drawable, offset)
 
-fun Button.addSuperIcon(style: ImageTextButton.ImageTextButtonStyle, text: String, drawable: Drawable? = null, offset: Float = 5.0f * scale, size: Float = ButtonType.CircleXSText.width * scale): ImageTextButton {
+fun Table.addSuperIcon(style: ImageTextButton.ImageTextButtonStyle, text: String, drawable: Drawable? = null, offset: Float = 5.0f * scale, size: Float = ButtonType.CircleXSText.width * scale): ImageTextButton {
     val btn = ImageTextButton(text, style)
     if (drawable != null)
         btn.image.drawable = drawable

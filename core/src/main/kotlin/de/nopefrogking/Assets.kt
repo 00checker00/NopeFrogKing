@@ -17,7 +17,6 @@ import ktx.assets.load
 import ktx.assets.toInternalFile
 import ktx.collections.toGdxArray
 import ktx.collections.toGdxMap
-import sun.font.FontManager
 import java.lang.ref.WeakReference
 import kotlin.reflect.KProperty
 import com.badlogic.gdx.utils.Array as GdxArray

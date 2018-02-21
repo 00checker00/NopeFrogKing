@@ -16,39 +16,34 @@ import de.nopefrogking.Main
 import de.nopefrogking.Sounds
 import de.nopefrogking.ui.IconBar
 import de.nopefrogking.ui.IconBarOptions
-import de.nopefrogking.utils.DefaultSkin
-import de.nopefrogking.utils.FontIcon
-import de.nopefrogking.utils.addSpacer
-import de.nopefrogking.utils.addSubIcon
+import de.nopefrogking.utils.*
+import ktx.actors.onClick
 import ktx.actors.repeatForever
 import ktx.actors.then
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
-class ShopScreen(game: Main) : WindowScreen(game, "Shop", FontIcon.Shop, true, true) {
+class ShopScreen(game: Main) : WindowScreen(game, "Shop", FontIcon.Shop, true, SheetStyle.Gold) {
     private val goldDisplay = Label("00000000", DefaultSkin.menu())
-    private val leftButton: TextButton
-    private val rightButton: TextButton
+    private val leftButton: TextButton = addButton(FontIcon.ArrowLeft) {
+        visibleTab = 0
+    }
+    private val rightButton: TextButton = addButton(FontIcon.ArrowRight) {
+        visibleTab = 1
+    }
 
     init {
-        leftButton = addButton(FontIcon.ArrowLeft) {
-            visibleTab = 0
-        }
-        rightButton = addButton(FontIcon.ArrowRight) {
-            visibleTab = 1
-        }
-
         onClose { goBack() }
 
         isClosable = true
     }
 
     override fun createTab(tab: Int): TabDetails {
-        if (tab == 0) {
-            return TabDetails("Items", DefaultSkin.ui_tab_icon_items)
+        return if (tab == 0) {
+            TabDetails("Items", DefaultSkin.ui_tab_icon_items)
         } else {
-            return TabDetails("Gifts", DefaultSkin.ui_tab_icon_gift)
+            TabDetails("Gifts", DefaultSkin.ui_tab_icon_gift)
         }
     }
 
@@ -201,6 +196,9 @@ class ShopScreen(game: Main) : WindowScreen(game, "Shop", FontIcon.Shop, true, t
                             then Actions.scaleTo(1f, 1f, 2.5f)).repeatForever()
             )
 
+            val pos = marker.actor.localToStageCoordinates(Vector2(0f, 0f))
+            x = pos.x - badgeWidth
+            y = pos.y - badgeHeight
             addAction(Actions.run {
                 val pos = marker.actor.localToStageCoordinates(Vector2(0f, 0f))
                 x = pos.x - badgeWidth
@@ -208,6 +206,10 @@ class ShopScreen(game: Main) : WindowScreen(game, "Shop", FontIcon.Shop, true, t
             }.repeatForever())
         }
         stage.addActor(premiumBadge)
+
+        premiumBadge.onClick { _, _ ->
+            game.addMoney(1000)
+        }
 
         val highlightImage = DefaultSkin.ui_premium_highlight()
         val highlightRatio = highlightImage.minWidth / highlightImage.minHeight

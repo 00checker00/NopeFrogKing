@@ -16,11 +16,13 @@ import ktx.actors.alpha
 import ktx.actors.onChange
 import ktx.actors.onClick
 
+enum class SheetStyle { NoSheet, Gold, Normal }
+
 abstract class WindowScreen(game: Main,
                             private val title: String,
                             private val icon: FontIcon = FontIcon.Nothing,
                             private val hasTabs: Boolean = false,
-                            private val hasSheet: Boolean = false,
+                            private val sheet: SheetStyle = SheetStyle.NoSheet,
                             private val windowContentStyle: Window.WindowStyle = DefaultSkin.windowContent()) : BaseScreenAdapter(game) {
     protected val stage = Stage()
     protected val scale = DefaultSkin.UIScale
@@ -83,6 +85,8 @@ abstract class WindowScreen(game: Main,
     }
 
     private lateinit var tabContent: Table
+
+    protected val content: Table get() = tabContent
 
     private val closeBtnType = ButtonType.CircleSmall
     private val closeBtn = TextButton(FontIcon.Exit(), closeBtnType.style())
@@ -151,7 +155,7 @@ abstract class WindowScreen(game: Main,
                         .width(WINDOW_WIDTH*scale)
                         .height(windowContentStyle.background.minHeight)
                 row()
-                if (hasSheet) {
+                if (sheet != SheetStyle.NoSheet) {
                     createSheet(this)
                     row()
                 }
@@ -195,7 +199,10 @@ abstract class WindowScreen(game: Main,
     }
 
     fun createSheet(table: Table) {
-        val window = Window("", DefaultSkin.windowSheet())
+        val window = Window("", when (sheet) {
+            SheetStyle.Gold -> DefaultSkin.windowSheetGold()
+            else -> DefaultSkin.windowSheetNormal()
+        })
         table.add(window)
                 .expandX()
                 .width(SHEET_WIDTH*scale)

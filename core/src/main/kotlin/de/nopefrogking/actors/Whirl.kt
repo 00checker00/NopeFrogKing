@@ -30,7 +30,7 @@ class Whirl: Actor() {
     }
 
     companion object {
-        val Width = 92f
+        val Width = 154f
         val Height = 168f
     }
 }

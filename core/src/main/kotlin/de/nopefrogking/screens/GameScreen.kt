@@ -1,15 +1,18 @@
 package de.nopefrogking.screens
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Interpolation
-import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
-import com.badlogic.gdx.utils.ObjectFloatMap
+import com.badlogic.gdx.audio.Sound
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.utils.viewport.FitViewport
 import de.nopefrogking.*
 import de.nopefrogking.actors.*
@@ -26,29 +29,56 @@ import kotlin.collections.HashMap
 import kotlin.concurrent.thread
 import com.badlogic.gdx.utils.Array as GdxArray
 
+internal open class TutorialTarget(
+        open val x: Float,
+        open val y: Float,
+        open val radius: Float) {
 
+    private class TutorialTargetActor(private val actor: Actor): TutorialTarget(0f, 0f, 0f) {
+        override val x get() = actor.x + actor.width/2
+        override val y get() = actor.y + actor.height/2
+        override val radius get() = maxOf(actor.width, actor.height)
+    }
 
+    companion object {
+        fun fromActor(actor: Actor): TutorialTarget = TutorialTargetActor(actor)
+    }
+}
+internal data class TutorialStage(val progress: Float, val target: TutorialTarget, val page: TutorialScreen.Page) {
+    var isDone = false
+        private set
+
+    fun done() {
+        isDone = true
+    }
+}
 
 class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
     override var level = 1
         private set
     override var levelProgress = 0f
         private set
+    override var bossBegin = 0.7f
+        private set
     override val isBossFight: Boolean
         get() = bossStarted
     override var score = 0f
         private set
     override val bonusPoints = GdxArray<Int>()
+    override val bonusMoney = GdxArray<Long>()
     override val messages = GdxArray<String>()
     override var isPaused = false
         private set
-    override val Cooldowns = hashMapOf(Item.Flask to 0f, Item.Orb to 0f, Item.Storm to 0f, Item.Umbrella to 0f)
+    override var isRunning = true
+    override val cooldowns = hashMapOf(Item.Flask to 0f, Item.Orb to 0f, Item.Storm to 0f, Item.Umbrella to 0f)
+    override var state = GameState.State.Running
+        private set
 
     private var levelTime = 0f
 
     private var random = Random()
     private val camera = OrthographicCamera()
-    private val viewport = FitViewport(450f, 800f, camera)
+    private val viewport = FitViewport(800f * SCREEN_RATION, 800f, camera)
     private val prince = Prince()
     private val princess = Princess()
 
@@ -72,8 +102,8 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
 
     private var backgroundSpeed = BACKGROUND_SPEED_BASE
     private val backgrounds = gdxArrayOf(
-            ParallaxBackground(BackgroundType.Bricks).apply { speed =  backgroundSpeed },
-            ParallaxBackground(BackgroundType.Wall).apply { speed = backgroundSpeed; speedMultiplyer = 0.8f; isForeground = true  }
+            ParallaxBackground(BackgroundType.Bricks, this).apply { speed =  backgroundSpeed },
+            ParallaxBackground(BackgroundType.Wall, this).apply { speed = backgroundSpeed; speedMultiplyer = 0.8f; isForeground = true  }
     )
 
     private val currentSpeed get() = speedModifiers.values.fold(backgroundSpeed, Float::times)
@@ -97,6 +127,11 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
     private val music by Assets.getSound("music/game_bg.wav")
     private var loopMusicThread: Thread? = null
 
+    var tutorial = true
+    private val tutorials = ArrayList<TutorialStage>()
+    private val nextTutorial: TutorialStage?
+        get() = tutorials.firstOrNull { !it.isDone }
+
     private fun createLevelColor(): Color {
 //        val hue = random.nextFloat() * 360f
 //        val sat = random.nextFloat() * 30f + 50f
@@ -106,6 +141,13 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
 //        return hsvToColor(hue, sat, value)
 
         return PASTELL_COLORS[random.nextInt(PASTELL_COLORS.size)]
+    }
+
+    private fun initTutorials() {
+        tutorials.clear()
+        tutorials.addAll(arrayOf(
+                TutorialStage(0.05f, TutorialTarget.fromActor(princess), TutorialScreen.Page.Princess)
+        ))
     }
 
     private val shader = SaturationShader()
@@ -140,9 +182,13 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
         }
         get() = stage.root.color
 
-    override val inputProcessor: InputProcessor = object: DelegatingBlockingInputProcessor(stage) {
-        override fun keyTyped(character: Char): Boolean {
-            return super.keyTyped(character)
+    override val inputProcessor: InputProcessor = DelegatingBlockingInputProcessor(stage)
+
+    val disableActiveItem = HashMap<Item, (()->Unit)>()
+    fun disableItems(vararg items: Item = Item.values()) {
+        for(item in items) {
+            disableActiveItem[item]?.invoke()
+            disableActiveItem.remove(item)
         }
     }
 
@@ -156,124 +202,154 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
     }
 
     fun activateItem(item: Item): Boolean {
-        if (Cooldowns[item]?:0f > 0f)
+        if (cooldowns.values.any { it > 0f })
             return false
+
+        if (SafePreferences { this.item[item] <= 0 }) {
+            return false
+        }
+
+        SafePreferences { this.item[item]-- }
+
+        disableItems()
 
         when(item) {
             Item.Flask -> {
                 if (flaskActive) return false
                 flaskActive = true
 
-                Cooldowns[Item.Flask] = 1.0f
+                cooldowns[Item.Flask] = 1.0f
 
-                stage.addAction(
-                        (ModifySpeedAction(this, SPEED_MODIFIER_FLASK, FLASK_SPEED_FACTOR, 0.2f) parallelTo SaturationAction(1f, FLASK_DESATURATION_STRENGTH, 0.2f))
+                disableActiveItem[Item.Flask] = {
+                    if (flaskActive) {
+                        stage.addAction(SaturationAction(FLASK_DESATURATION_STRENGTH, 1f, 0.2f))
+                        Sounds.time_normal().play()
+                        flaskActive = false
+                        stage.addAction(ModifySpeedAction(this, SPEED_MODIFIER_FLASK, 1f, 0.2f))
+                    }
+                    cooldowns[Item.Flask] = 0f
+                    flaskActive = false
+                }
+
+                Sounds.time_slow().play()
+                stage.addAction((ModifySpeedAction(this, SPEED_MODIFIER_FLASK, FLASK_SPEED_FACTOR, 0.2f) parallelTo SaturationAction(1f, FLASK_DESATURATION_STRENGTH, 0.2f))
                                 then Actions.delay(FLASK_DURATION - 0.4f)
-                                then (SaturationAction(FLASK_DESATURATION_STRENGTH, 1f, 0.2f) parallelTo Actions.run {
-                            if (flaskActive) {
-                                flaskActive = false
-                                stage.addAction(ModifySpeedAction(this, SPEED_MODIFIER_FLASK, 1f, 0.2f))
-                            }
-                        })
-                )
+                                then Actions.run {
+                    disableItems(Item.Flask)
+                })
 
                 stage.addAction(object: TemporalAction(FLASK_DURATION) {
                     override fun update(percent: Float) {
-                        Cooldowns[Item.Flask] = 1.0f - percent
+                        if (flaskActive) {
+                            cooldowns[Item.Flask] = 1.0f - percent
+                        }
                     }
                 })
             }
             Item.Orb -> {
                 if (orbActive) return false
 
-                Cooldowns[Item.Orb] = 1.0f
-
-                val rainbowAction = (Actions.color(Color.RED, 0.1f) then
-                        Actions.color(Color.VIOLET, 0.1f) then
-                        Actions.color(Color.BLUE, 0.1f) then
-                        Actions.color(Color.CYAN, 0.1f) then
-                        Actions.color(Color.GREEN, 0.1f) then
-                        Actions.color(Color.YELLOW, 0.1f)).repeatForever()
-
-                princess.addAction(rainbowAction)
+                cooldowns[Item.Orb] = 1.0f
 
                 orbActive = true
-                stage.addAction(Actions.delay(ORB_DURATION) then Actions.run {
+
+                val cooldownAction = object: TemporalAction(ORB_DURATION) {
+                    override fun update(percent: Float) {
+                        if (orbActive) {
+                            cooldowns[Item.Orb] = 1.0f - percent
+                        }
+                    }
+                }
+                stage.addAction(cooldownAction)
+
+                disableActiveItem[Item.Orb] = {
+                    Sounds.item_orb().stop()
+
+                    if (orbActive) {
+                        princess.drawStars = false
+                        orbActive = false
+                        stage.addAction(ModifySpeedAction(this, SPEED_MODIFIER_ORB, 1f, 0.2f))
+
+                        princess.color = Color.WHITE
+                    }
+
+                    cooldowns[Item.Orb] = 0f
                     orbActive = false
-                    princess.removeAction(rainbowAction)
-                    princess.color = Color.WHITE
-                })
+                }
+
+                Sounds.item_orb().play()
 
                 stage.addAction(
                     ModifySpeedAction(this, SPEED_MODIFIER_ORB, ORB_SPEED_FACTOR, 0.2f)
                             then Actions.run { princess.drawStars = true }
                             then Actions.delay(ORB_DURATION - 0.4f)
                             then Actions.run {
-                        if (orbActive) {
-                            princess.drawStars = false
-                            orbActive = false
-                            stage.addAction(ModifySpeedAction(this, SPEED_MODIFIER_ORB, 1f, 0.2f))
-                        }
+                        disableItems(Item.Orb)
                     }
                 )
-
-                stage.addAction(object: TemporalAction(ORB_DURATION) {
-                    override fun update(percent: Float) {
-                        Cooldowns[Item.Orb] = 1.0f - percent
-                    }
-                })
 
                 val y = princess.y
                 princess.addAction(Actions.moveTo(princess.x, stage.height/2 - princess.height/2, 0.5f, Interpolation.pow2)
                         then Actions.delay(ORB_DURATION - 1f)
-                        then Actions.moveTo(princess.x, y, 0.5f, Interpolation.pow2)
-                )
-
+                        then Actions.run {
+                    if (!isBossFight) {
+                        princess.addAction(Actions.moveTo(princess.x, y, 0.5f, Interpolation.pow2))
+                    }
+                })
             }
+
             Item.Umbrella -> {
-                Cooldowns[Item.Umbrella] = 1.0f
+                cooldowns[Item.Umbrella] = 1.0f
 
                 umbrellaActive = true
 
                 princess.openUmbrella {
+                    val action = Actions.moveTo(princess.x, stage.height - princess.height, 4f) then Actions.run {
+                        if (umbrellaActive) {
+                            umbrellaActive = false
+                            bossStarted = false
 
-                    princess.addAction(Actions.moveTo(princess.x, stage.height - princess.height, 4f) then Actions.run {
+                            endBossFight()
+                            nextLevel()
+
+                            princess.closeUmbrella()
+                        }
+                    }
+                    princess.addAction(action)
+
+                    disableActiveItem[Item.Umbrella] = {
                         umbrellaActive = false
-                        bossStarted = false
-
-                        endBossFight()
-                        nextLevel()
-
                         princess.closeUmbrella()
-                    })
-
-
+                        princess.removeAction(action)
+                    }
                 }
 
 
             }
             Item.Storm -> {
-                Cooldowns[Item.Storm] = 1.0f
-
-                stage.addAction(object: TemporalAction(ORB_DURATION) {
-                    override fun update(percent: Float) {
-                        Cooldowns[Item.Storm] = 1.0f - percent
-                    }
-                })
+                cooldowns[Item.Storm] = 1.0f
 
                 princess.doPirouette()
 
                 val whirl = Whirl().apply { x = princess.x; y = princess.y }
                 stage.addActor(whirl)
 
+                Sounds.item_storm_start().play()
 
                 whirl.addAction(Actions.moveTo(prince.x, stage.height, 1f))
+
+                disableActiveItem[Item.Storm] = {
+                    whirl.remove()
+                    cooldowns[Item.Storm] = 0f
+                }
 
                 whirl.addAction(Actions.run {
                     if (whirl.y >= prince.y) {
                         prince.addAction(Actions.moveBy(0.0f, STORM_DISTANCE, STORM_DURATION, Interpolation.pow2))
                         prince.getElectrified()
-                        whirl.remove()
+                        Sounds.item_storm_hit().play()
+                        Sounds.item_storm_start().stop()
+                        disableItems(Item.Storm)
                     }
                 }.repeatForever())
             }
@@ -315,6 +391,26 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
         return stone
     }
 
+    private fun showTutorialMessage(tutorial: TutorialStage) {
+        val target = tutorial.target
+        stage.addAction(ModifySpeedAction(this, SPEED_MODIFIER_TUTORIAL, 0f, 0.5f))
+        game.addScreen(CircleFadeScreen(game, 1f) {
+
+            game.addScreen(TutorialScreen(game, tutorial.page) {
+                stage.addAction(ModifySpeedAction(this, SPEED_MODIFIER_TUTORIAL, 1f, 0.5f))
+
+            })
+        }.apply {
+            color = TUTORIAL_OVERLAY_COLOR
+            center = camera.project(Vector3(target.x, target.y, 0f),
+                    stage.viewport.screenX.toFloat(), stage.viewport.screenY.toFloat(), stage.viewport.screenWidth.toFloat(), stage.viewport.screenHeight.toFloat())
+                    .let { Vector2(it.x, it.y) }
+            minRadius = camera.project(Vector3(target.radius, target.radius, 0f)).x
+            maxRadius = Gdx.graphics.width.toFloat()
+        })
+        tutorial.done()
+    }
+
     override fun update(delta: Float) {
         val currentSpeed = currentSpeed
 
@@ -349,7 +445,9 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
                 if (umbrellaActive) {
                     prince.y = princess.y + princess.height
                 } else {
-                    Sounds.kiss().play(0.5f)
+                    state = GameState.State.EndedPrinceKiss
+                    prince.isVisible = false
+                    princess.isVisible = false
                     game.pauseGame()
                     game.addScreen(GameOverScreen(game))
 
@@ -365,18 +463,20 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
             } else {
                 if (!stone.isDestroyed) {
                     if (bossStarted) {
-                        if (stone.intersects(prince)) {
+                        if (stone.intersects(prince.hitbox)) {
                             //info { "Stone collided with prince" }
                             stone.crush()
                             prince.addAction(Actions.moveBy(0.0f, bossHitDistance, 0.8f, Interpolation.pow2))
                             prince.hit()
                         }
                     } else if (!stone.isDisabled) {
-                        val bounds = Rectangle(princess.x, princess.y, princess.width, princess.height)
-                        if (stone.y + stone.height >= princess.y && stone.hitbox.overlaps(bounds)) {
+                        if (stone.y + stone.height >= princess.y && stone.hitbox.overlaps(princess.hitbox)) {
                             //info { "Stone collided with princess" }
                             stone.crush()
                             if (!orbActive) {
+                                state = GameState.State.EndedStoneHit
+                                prince.isVisible = false
+                                princess.isVisible = false
                                 game.pauseGame()
                                 game.addScreen(GameOverScreen(game))
                             } else {
@@ -425,12 +525,14 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
         backgrounds.filter { it.isForeground }.forEach { it.toFront() }
     }
 
-    private fun nextLevel() {
+    private fun nextLevel(changeBG: Boolean = true) {
 
         distanceTravelled = 0f
         bossStarted = false
 
         level++
+
+        cooldowns.keys.forEach { cooldowns[it] = 0f }
 
         val newSpeed =  (1 + (BACKGROUND_SPEED_MAX-1) *  (1 - (1 / Math.pow(2.0, level * BACKGROUND_SPEED_QUOTIENT.toDouble()).toFloat())))
 
@@ -438,33 +540,49 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
 
         levelTime = (0..level).fold(LEVEL_TIME) { cur, _ -> cur * LEVEL_TIME_INCREASE }
         distanceComplete = newSpeed * levelTime * BACKGROUND_SPEED_BASE
-        distanceBoss = distanceComplete * (1.0f - random.nextFloat(BOSS_START_MIN, BOSS_START_MAX))
+        bossBegin = random.nextFloat(BOSS_START_MIN, BOSS_START_MAX)
+        distanceBoss = distanceComplete * bossBegin
 
         val newColor = createLevelColor()
 
-        stage.addAction(Actions.color(newColor, 2.0f))
+        princess.drawStars = false
 
         prince.hits = 0
 
-        val oldBackground = backgrounds.filter { !it.isForeground }.first()
-        val type = when (oldBackground.type) {
-            BackgroundType.Bricks -> BackgroundType.Stones
-            else -> BackgroundType.Bricks
-        }
-        val newBackground = ParallaxBackground(type).apply {
-            width = this@GameScreen.stage.width
-            height = this@GameScreen.stage.height
-            color = Color(oldBackground.color).apply { a = 0.0f }
-            speed = newSpeed
-        }
-        stage.addActor(newBackground)
-        newBackground.addAction(Actions.color(newColor, 2.0f) then Actions.run {
+        disableItems()
+
+        if (changeBG) {
+            val oldBackground = backgrounds.last { !it.isForeground }
+            val type = BackgroundType.values()
+                    .filterNot { it == BackgroundType.Wall }
+                    .filterNot { it == oldBackground.type }
+                    .let { it[random.nextInt(it.size)] }
+
+            val newBackground = ParallaxBackground(type, this).apply {
+                width = this@GameScreen.stage.width
+                height = this@GameScreen.stage.height
+                color = newColor
+                speed = newSpeed
+                moving = false
+                y = 0f
+            }
+            oldBackground.moving = false
             backgrounds.add(newBackground)
-            backgrounds.removeValue(oldBackground, true)
-            oldBackground.remove()
-        })
-        newBackground.toBack()
-        oldBackground.toBack()
+            stage.addActor(newBackground)
+
+            newBackground.addAction(Actions.moveTo(0f, -this@GameScreen.stage.height, 0f)
+                    then Actions.moveTo(0f, 0f, BACKGROUND_SWITCH_TIME)
+                    then Actions.run {
+                oldBackground.remove()
+                backgrounds.removeValue(oldBackground, true)
+                if (backgrounds.last { !it.isForeground } == newBackground) {
+                    newBackground.moving = true
+                }
+            })
+            oldBackground.addAction(Actions.moveTo(0f, stage.height, BACKGROUND_SWITCH_TIME))
+            newBackground.toBack()
+            oldBackground.toBack()
+        }
 
         stoneNextDist = 1500f
 
@@ -472,7 +590,7 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
 
         messages.add("Level $level!")
 
-        Cooldowns[Item.Umbrella] = 0f
+        cooldowns[Item.Umbrella] = 0f
 
         distanceBoss
 
@@ -491,15 +609,12 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
     }
 
     override fun show() {
-        game.addScreen(HUDScreen(game))
-
         music
 
-        restartGame()
+        restartGame(false)
     }
 
     override fun hide() {
-        game.removeScreen(HUDScreen::class.java, true)
         stopMusic()
     }
 
@@ -520,6 +635,8 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
         messages.add("The Prince is getting closer!")
         messages.add("Don't let him reach you!")
 
+        disableItems()
+
         val duration = if (animate) 1.5f else 0f
 
         stoneNextDist = duration * currentSpeed
@@ -536,7 +653,8 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
     }
 
     override fun render() {
-        clearScreen(color.r * 0.14f, color.g * 0.14f, color.b * 0.14f)
+        //clearScreen(color.r * 0.14f, color.g * 0.14f, color.b * 0.14f)
+        clearScreen(0f, 0f, 0f)
         stage.viewport.apply()
         stage.draw()
     }
@@ -562,7 +680,7 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
             loopMusicThread = thread {
                 try {
                     while(true) {
-                        music?.play(0.2f)
+                        music?.play()
                         Thread.sleep(7000)
                     }
                 } catch (_: InterruptedException) {}
@@ -576,8 +694,8 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
         loopMusicThread = null
     }
 
-    fun restartGame() {
-        level = 1
+    fun restartGame(changeBG: Boolean = true) {
+        level = 0
         score = 0f
         levelProgress = 0f
         bonusPoints.clear()
@@ -587,6 +705,11 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
         stoneNextDist = 1500f
 
         prince.hits = 0
+
+        state = GameState.State.Running
+
+        prince.isVisible = true
+        princess.isVisible = true
 
         bossStarted = false
 
@@ -603,11 +726,16 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
 
         //messages.add("Move the Stones\n out of your way!")
 
-        nextLevel()
+        nextLevel(changeBG)
+
+        if (tutorial) {
+            initTutorials()
+        }
     }
 
     override fun dispose() {
         super.dispose()
+        disableItems()
         stopMusic()
     }
 
@@ -619,8 +747,8 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
         private val LEVEL_TIME_INCREASE = 1.1f
 
         private val BOSS_START_FIRST = 0.3f
-        private val BOSS_START_MIN = 0.2f
-        private val BOSS_START_MAX = 0.5f
+        private val BOSS_START_MIN = 0.5f
+        private val BOSS_START_MAX = 0.8f
 
         private val FLASK_SPEED_FACTOR = 0.5f
         private val FLASK_DURATION = 5f
@@ -628,9 +756,10 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
 
         private val BACKGROUND_SPEED_BASE = 300.0f
         private val BACKGROUND_SPEED_MAX = 4f
+        private val BACKGROUND_SWITCH_TIME = 0.5f
         private val BACKGROUND_SPEED_QUOTIENT = 0.1f
 
-        data class PhasedValue<T>(val freefall: T, val boss: T = freefall) {
+        data class PhasedValue<out T>(private val freefall: T, private val boss: T = freefall) {
             fun get(isBoss: Boolean) = if(isBoss) boss else freefall
         }
         private val STONE_SPAWN_MIN_COUNT = PhasedValue(2, 5)
@@ -654,6 +783,7 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
         private val SPEED_MODIFIER_NEXT_LEVEL = "NEXT_LEVEL"
         private val SPEED_MODIFIER_ORB = "ORB"
         private val SPEED_MODIFIER_FLASK = "FLASK"
+        private val SPEED_MODIFIER_TUTORIAL = "TUTORIAL"
 
         private val PASTELL_COLORS = arrayOf(
             Color(238/255f, 231/255f, 219/255f, 1f),
@@ -674,10 +804,14 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
             Color(146/255f, 211/255f, 240/255f, 1f),
             Color(230/255f, 126/255f, 140/255f, 1f)
         )
+
+        private val TUTORIAL_OVERLAY_COLOR = Color(172/255f, 59/255f, 172/255f, 0.4f)
+
+        val SCREEN_RATION = 450f/800f
     }
 
     internal class ModifySpeedAction(val gameScreen: GameScreen, val id: String, val end: Float, duration: Float, interpolation: Interpolation = Interpolation.linear): TemporalAction(duration, interpolation) {
-        private val start = gameScreen.speedModifiers[id]?: 1f
+        private val start = gameScreen.speedModifiers[id]?:1f
 
         override fun update(percent: Float) {
             val d = (start - end) * percent
@@ -690,5 +824,21 @@ class GameScreen(game: Main) : BaseScreenAdapter(game), GameState {
             (target.stage.batch.shader as? SaturationShader)?.saturation = start + (end-start) * percent
         }
 
+    }
+
+    internal class FadeSoundAction(val sound: Sound, val soundID: Long, val start: Float, val end: Float, duration: Float, interpolation: Interpolation = Interpolation.linear): TemporalAction(duration, interpolation) {
+        override fun update(percent: Float) {
+            val d = (start - end) * percent
+            sound.setVolume(soundID, d)
+        }
+
+        companion object {
+            fun fadeOut(sound: Sound, soundID: Long, duration: Float, interpolation: Interpolation = Interpolation.linear): FadeSoundAction {
+                return FadeSoundAction(sound, soundID, 1f, 0f, duration, interpolation)
+            }
+            fun fadeIn(sound: Sound, soundID: Long, duration: Float, interpolation: Interpolation = Interpolation.linear): FadeSoundAction {
+                return FadeSoundAction(sound, soundID, 0f, 1f, duration, interpolation)
+            }
+        }
     }
 }

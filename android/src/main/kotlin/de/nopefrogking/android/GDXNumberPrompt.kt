@@ -62,6 +62,7 @@ class GDXNumberPrompt(private val activity: Activity) : GDXNumberPrompt {
             userInput = promptsView.findViewById(getResourceId("gdxDialogsNumberInput", "id")) as NumberPicker
             userInput.maxValue = maxValue
             userInput.minValue = minValue
+            userInput.wrapSelectorWheel = false
             userInput.value = value
 
             titleView = promptsView.findViewById(getResourceId("gdxDialogsEnterTitle", "id")) as TextView

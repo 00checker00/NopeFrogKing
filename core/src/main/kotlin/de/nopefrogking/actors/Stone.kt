@@ -151,8 +151,8 @@ class Stone: Actor(), Pool.Poolable {
                 }
             }
 
-            if (poofEffect?.isComplete ?: false) poofEffect = null
-            if (crushEffect?.isComplete ?: false) crushEffect = null
+            if (poofEffect?.isComplete == true) poofEffect = null
+            if (crushEffect?.isComplete == true) crushEffect = null
 
             if (allFinished) {
                 isVisible = false

@@ -24,7 +24,7 @@ open class ColorDrawable(private val color: Color, private val blendingEnabled: 
         batch.begin()
     }
 
-    open protected fun fill(shape: ShapeRenderer, bounds: Rectangle) {
+    protected open fun fill(shape: ShapeRenderer, bounds: Rectangle) {
         shape.rect(bounds.x, bounds.y, bounds.width, bounds.height)
     }
 }

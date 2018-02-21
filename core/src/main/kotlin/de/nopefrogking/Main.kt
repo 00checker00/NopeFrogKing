@@ -27,16 +27,15 @@ open class Main : ApplicationAdapter() {
     private var timeSinceLastRender = 0f
 
     var blockInteraction = false
-        set(value) {
-            field = value
-        }
     var blockSaving = false
     var currentSaveSlot: Int = 0; private set
 
     private val _state = StubGameState()
     val state: GameState = object : GameState by _state {}
 
-    val gold: Int = 0
+    var gold: Long
+        get() = SafePreferences { gold }
+        set(value) = SafePreferences { gold = value }
 
     override fun create() {
         Gdx.app.logLevel = Application.LOG_DEBUG
@@ -58,7 +57,7 @@ open class Main : ApplicationAdapter() {
     }
 
     protected open fun init() {
-        addScreen(FPSScreen(this))
+        //addScreen(FPSScreen(this))
 
         Gdx.input.inputProcessor = inputProcessor
 
@@ -71,7 +70,8 @@ open class Main : ApplicationAdapter() {
                     *Gdx.files.internal("particles").list().map { ParticleEffect::class.java assetFrom it.path() with ParticleEffectLoader.ParticleEffectParameter().apply { this.atlasFile = Assets.atlasFile } }.toTypedArray(),
                     *Sounds.values().map { Sound::class.java assetFrom it.path }.toTypedArray(),
                     Music::class.java assetFrom "music/menu_bg.mp3",
-                    Sound::class.java assetFrom "music/game_bg.wav"
+                    Sound::class.java assetFrom "music/game_bg.wav",
+                    Sound::class.java assetFrom "music/lose_princ.mp3"
                 )
 
                 val start = System.currentTimeMillis()
@@ -79,7 +79,9 @@ open class Main : ApplicationAdapter() {
                     val duration = System.currentTimeMillis() - start
                     debug { "Loading skin assets took ${duration}ms" }
 
+                    ktx.scene2d.Scene2DSkin.defaultSkin = DefaultSkin
                     addScreen(MainMenuScreen(this))
+                    addScreen(HUDScreen(this))
                     PlatformHandler.Instance?.showAd()
                 })
             }
@@ -96,6 +98,11 @@ open class Main : ApplicationAdapter() {
 
     fun resumeGame() {
         gameScreen?.resumeGame()
+    }
+
+    fun addMoney(amount: Long) {
+        state.bonusMoney.add(amount)
+        SafePreferences { gold += amount }
     }
 
     fun activateItem(item: Item) = gameScreen?.activateItem(item) ?: false
@@ -201,8 +208,10 @@ open class Main : ApplicationAdapter() {
             if (pair.second) {
                 pair.first.dispose()
             }
-            if (pair.first == gameScreen)
+            if (pair.first == gameScreen) {
                 gameScreen = null
+                _state.delegate = null
+            }
         }
     }
 
