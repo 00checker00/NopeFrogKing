@@ -209,6 +209,7 @@ class ShopScreen(game: Main) : WindowScreen(game, "Shop", FontIcon.Shop, true, S
 
         premiumBadge.onClick { _, _ ->
             game.addMoney(1000)
+            SafePreferences { presents += 10 }
         }
 
         val highlightImage = DefaultSkin.ui_premium_highlight()

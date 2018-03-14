@@ -88,8 +88,7 @@ open class MainMenuScreen(game: Main) : BaseScreenAdapter(game) {
         connectButtons(
                 insertMenuButton(ButtonProperties(BUTTON_CREDITS_TEXT_ID, ButtonType.Button), I18N.menu_credits(), BUTTON_CREDITS_GROUP_ID),
                 insertMenuButton(ButtonProperties(BUTTON_CREDITS_ICON_ID, ButtonType.CircleToggle), FontIcon.Credits(), BUTTON_CREDITS_GROUP_ID)) {
-            SafePreferences { reset() }
-            game.showToastMessages("Reset!")
+            game.showToastMessages("Soon")
         }
 
         createButtonGroup(BUTTON_VARIOUS_GROUP_ID).apply { center() }
@@ -103,7 +102,7 @@ open class MainMenuScreen(game: Main) : BaseScreenAdapter(game) {
             switchToScreen(TutorialScreen(game))
         }
         insertMenuButton(ButtonProperties(BUTTON_SETTINGS_ID, ButtonType.CircleSmall), FontIcon.Options(), BUTTON_VARIOUS_GROUP_ID) {
-            PlatformHandler.Instance?.login()
+            game.showToastMessages("Soon")
         }
 
         root.row()

@@ -30,6 +30,9 @@ class OpenGift(private val game: Main): AnimationWidget() {
     var gift_front = Image(DefaultSkin.gift_open_front())
     var open = false
 
+    private var onAllPoppedCB: (()->Unit)? = null
+    private var poppedCount = 0
+
     sealed class Reward(val icon: NamedAsset<Drawable>) {
         class Gold(val size: Size): Reward(size.asset) {
             enum class Size(val asset: NamedAsset<Drawable>, val amount: Long) {
@@ -57,6 +60,8 @@ class OpenGift(private val game: Main): AnimationWidget() {
                 open = true
                 paused = false
 
+                SafePreferences { presents-- }
+
                 val pos = Vector2(this@OpenGift.originX, this@OpenGift.originY) + ( BUBBLE_START.cpy() * DefaultSkin.UIScale )
 
 
@@ -66,13 +71,15 @@ class OpenGift(private val game: Main): AnimationWidget() {
                 BUBBLE_END.forEach {
                     val reward = rewards.removeFirst().getRandom()
                     val bubble = Bubble(reward.icon).apply {
-                        width = 48 * DefaultSkin.UIScale
-                        height = 48 * DefaultSkin.UIScale
+                        width = 75 * DefaultSkin.UIScale
+                        height = 75 * DefaultSkin.UIScale
 
                         x = pos.x
                         y = pos.y
 
                         alpha = 0f
+
+                        touchable = Touchable.disabled
                     }
                     addActor(bubble)
 
@@ -80,11 +87,25 @@ class OpenGift(private val game: Main): AnimationWidget() {
 
                     bubble.addAction(Actions.delay(1.8f)
                             then Actions.fadeIn(0.2f)
-                            then Actions.moveTo(end.x, end.y, 1.5f, Interpolation.pow2))
+                            then Actions.moveTo(end.x, end.y, 1.5f, Interpolation.pow2)
+                            then Actions.run {
+                        bubble.touchable = Touchable.enabled
+                        bubble.addAction(Actions.delay(Math.random().toFloat()) then Actions.forever(
+                                Actions.moveBy(0f, 5*scale, 1.5f)
+                                then Actions.moveBy(0f, -5f*scale, 1.5f)
+                        ))
+                    })
 
                     when (reward) {
                         is Reward.Gold -> game.addMoney(reward.size.amount)
                         is Reward.Item -> SafePreferences { this.item[reward.item] += 1 }
+                    }
+
+                    bubble.onPopped {
+                        poppedCount++
+                        if (poppedCount == BUBBLE_END.size) {
+                            onAllPoppedCB?.invoke()
+                        }
                     }
                 }
             } else {
@@ -101,6 +122,10 @@ class OpenGift(private val game: Main): AnimationWidget() {
                 })
             }
         }
+    }
+
+    fun onAllPopped(cb: ()->Unit) {
+        onAllPoppedCB = cb
     }
 
     override fun layout() {
@@ -142,6 +167,7 @@ class OpenGift(private val game: Main): AnimationWidget() {
         )
 
         val REWARDS_GOLD = arrayOf(
+                *REWARDS_ITEM,
                 Reward.Gold(Reward.Gold.Size.Small),
                 Reward.Gold(Reward.Gold.Size.Small),
                 Reward.Gold(Reward.Gold.Size.Small),

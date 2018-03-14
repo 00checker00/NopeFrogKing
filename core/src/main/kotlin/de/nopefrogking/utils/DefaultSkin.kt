@@ -170,7 +170,6 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
     val ui_item_cooldown by textureRegion().cached()
     val gift_open_front by textureRegion().cached()
     val gift_open by textureRegions().cached()
-    val bubble_pop by textureRegions().cached()
     /******* End TextureRegions *******/
 
     /******* Colors *******/
@@ -489,6 +488,8 @@ class NopeFrogKingSkin(atlas: TextureAtlas, scale: Float): Skin(atlas) {
     }.cached()
     /******* End Windows *******/
 
+
+    val bubble_pop by animation(0.05f).cached()
 }
 
 private val scaledSkin = ScaledSkin("ui/{}x/skin.atlas", ::NopeFrogKingSkin)

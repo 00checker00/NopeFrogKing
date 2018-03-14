@@ -13,6 +13,7 @@ enum class BackgroundType(internal val textureName: String) {
     Bricks("Bricks"),
     Stones("Stones"),
     Nuggets("Nuggets"),
+    Scales("Scales"),
     Wall("Wall")
 }
 

@@ -8,4 +8,10 @@ inline fun <reified T> Animation<T>.getKeyFramesTyped(): Array<T> {
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T> Animation<T>.getKeyFrameAt(index: Int): T? = (this as Animation<*>).keyFrames[index] as T?
+fun <T> Animation<T>.getKeyFrameAt(index: Int): T? =
+        (this as Animation<*>).keyFrames.let {
+            if (it.size > index)
+                it[index] as T?
+            else
+                null
+        }

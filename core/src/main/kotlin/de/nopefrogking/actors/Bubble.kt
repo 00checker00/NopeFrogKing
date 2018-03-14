@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.scenes.scene2d.utils.Layout
 import com.badlogic.gdx.utils.Scaling
-import de.nopefrogking.Assets
 import de.nopefrogking.utils.DefaultSkin
 import de.nopefrogking.utils.NamedAsset
 import de.nopefrogking.utils.UIScale
@@ -19,15 +18,17 @@ import ktx.actors.parallelTo
 import ktx.actors.then
 
 class Bubble(val icon: NamedAsset<Drawable>, animated: Boolean = true, destroyable: Boolean = true): WidgetGroup() {
-    val bubblePop by Assets.getAnimation("bubble_pop") {
+    private var onPoppedCB: (()->Unit)? = null
+
+    init {
         val content = Container(Image(icon(), Scaling.stretch)).apply {
-            pad(7f * DefaultSkin.UIScale)
+            pad(15f * DefaultSkin.UIScale)
         }
         add(content)
 
-        val bubble = AnimationWidget(it).apply {
+        val bubble = AnimationWidget(DefaultSkin.bubble_pop()).apply {
             if (animated) {
-                addAction(Actions.forever(
+                this@Bubble.addAction(Actions.forever(
                         Actions.scaleTo(1f, SQUEEZE_STRENGTH, ANIMATION_DURATION)
                                 then Actions.scaleTo(1f, 1f, ANIMATION_DURATION)
                                 then Actions.scaleTo(SQUEEZE_STRENGTH, 1f, ANIMATION_DURATION)
@@ -35,8 +36,6 @@ class Bubble(val icon: NamedAsset<Drawable>, animated: Boolean = true, destroyab
                 ))
             }
             showFrame(0)
-            originX = width/2
-            originY = height/2
         }
         add(bubble)
 
@@ -53,7 +52,10 @@ class Bubble(val icon: NamedAsset<Drawable>, animated: Boolean = true, destroyab
 
                 content.addAction(
                         (Actions.moveBy(0f, 200f, 1f) parallelTo Actions.fadeOut(0.5f))
-                                then Actions.run { this@Bubble.remove() }
+                                then Actions.run {
+                            this@Bubble.remove()
+                            onPoppedCB?.invoke()
+                        }
                 )
 
                 label.addAction(
@@ -66,8 +68,8 @@ class Bubble(val icon: NamedAsset<Drawable>, animated: Boolean = true, destroyab
         }
     }
 
-    init {
-        bubblePop
+    fun onPopped(cb: ()->Unit) {
+        onPoppedCB = cb
     }
 
     override fun getPrefHeight(): Float = height
@@ -86,6 +88,9 @@ class Bubble(val icon: NamedAsset<Drawable>, animated: Boolean = true, destroyab
             it.setBounds(0f, 0f, width, height)
             if (it is Layout) it.validate()
         }
+
+        originX = width/2
+        originY = height/2
     }
 
     companion object {

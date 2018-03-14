@@ -22,6 +22,10 @@ class IOSPlatformHandler(
         private val uiViewController: UIViewController?,
         private val iosApplication: IOSApplication) : PlatformHandler {
 
+    override fun showVideo(video: FileHandle, bounds: Rectangle, onFinish: () -> Unit) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
     private var loading = false
     override var loadingScreenVisible = false
@@ -54,10 +58,6 @@ class IOSPlatformHandler(
                 Log.d("submitted score successfully")
             }
         }
-    }
-
-    override fun showVideo(video: FileHandle, bounds: Rectangle) {
-
     }
 
     override fun login() {

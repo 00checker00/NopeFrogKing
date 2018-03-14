@@ -3,7 +3,9 @@ package de.nopefrogking.utils
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
@@ -276,6 +278,12 @@ fun Skin.textureRegion(name: String) = NamedAssetDelegateProvider(name, {}, {get
 
 fun Skin.textureRegions() = AssetDelegateProvider({}, { atlas?.findRegions(it) })
 fun Skin.textureRegions(name: String) = NamedAssetDelegateProvider(name, {}, { atlas?.findRegions(it) })
+
+fun Skin.animation(frameDuration: Float = 0.13f, playMode: Animation.PlayMode = Animation.PlayMode.NORMAL)
+        = AssetDelegateProvider({}, { Animation<TextureRegion>(frameDuration, atlas?.findRegions(it), playMode) })
+
+fun Skin.animation(name: String, frameDuration: Float = 0.13f, playMode: Animation.PlayMode = Animation.PlayMode.NORMAL)
+        = NamedAssetDelegateProvider(name, {}, { Animation<TextureRegion>(frameDuration, atlas?.findRegions(it), playMode) })
 
 fun Skin.getPatchDrawable(region: String) = NinePatchDrawable(getPatch(region))
 
